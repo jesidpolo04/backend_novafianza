@@ -88,7 +88,7 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
             grupoDatos: [ 
                 new GrupoDato({
                     datos: colocacion.departamentos.map( dep => dep.cantidad ),
-                    colores: colocacion.departamentos.map( (_, indice) => COLORES_GRAFICOS[ COLORES_GRAFICOS.length % indice ] ),
+                    colores: colocacion.departamentos.map( (_, indice) => COLORES_GRAFICOS[ indice % COLORES_GRAFICOS.length ] ),
                     etiquetas: colocacion.departamentos.map( dep => dep.codigoDepartamento ),
                 }) 
             ]

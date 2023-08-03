@@ -25,6 +25,7 @@ export class RepositorioReportesSafix implements RepositorioReportes{
         }
         try{
             const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
+            console.log('colocacion obtenida rango de fechas', filtrosColocacion, colocacion)
             return MapeadorColocacionSafix.obtenerColocacion(colocacion)
         }catch(e){
             console.error(e)

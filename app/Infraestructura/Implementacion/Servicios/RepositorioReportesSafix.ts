@@ -13,7 +13,17 @@ export class RepositorioReportesSafix implements RepositorioReportes{
 
     async obtenerColocacion(filtrosColocacion: FiltrosColocacion): Promise<Colocacion> {
          const endpoint = 'ConsultarColocacion/ConsultarDatosColocacion'
-         const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, filtrosColocacion)
+         const cuerpo = {
+            pEntidad: "890914526",
+            pFechaInicioDesembolso: "",
+            pFechaFinalDesembolso: "",
+            pFechaInicioCorte: filtrosColocacion.fechaInicioCorte,
+            pFechaFinalCorte: filtrosColocacion.fechaFinalCorte,
+            pAnioColocacion: "",
+            pMesColocacion: "",
+            pTipoProducto : "353"
+        }
+         const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
          return MapeadorColocacionSafix.obtenerColocacion(colocacion)
     }
 

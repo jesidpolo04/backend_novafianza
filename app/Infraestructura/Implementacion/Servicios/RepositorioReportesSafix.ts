@@ -23,8 +23,13 @@ export class RepositorioReportesSafix implements RepositorioReportes{
             pMesColocacion: "",
             pTipoProducto : "353"
         }
-         const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
-         return MapeadorColocacionSafix.obtenerColocacion(colocacion)
+        try{
+            const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
+            return MapeadorColocacionSafix.obtenerColocacion(colocacion)
+        }catch(e){
+            console.error(e)
+            throw e;
+        }
     }
 
 }

@@ -34,6 +34,7 @@ export default Env.rules({
   JWT_SECRET_KEY: Env.schema.string(),
 
   URL_PAGOS_NOVAFIANZA: Env.schema.string({format: 'url'}),
+  URL_REPORTES_SAFIX: Env.schema.string({format: 'url'}),
   URL_SERVICIOS: Env.schema.string({format: 'url'}),
   URL_WOMPI: Env.schema.string({format: 'url'}),
   URL_CARGA: Env.schema.string({format: 'url'}),

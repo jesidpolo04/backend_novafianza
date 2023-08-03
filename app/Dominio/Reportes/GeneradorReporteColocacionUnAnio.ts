@@ -81,7 +81,7 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
 
     private obtenerPeriodoAnterior(filtros: FiltrosColocacion): Promise<Colocacion>{
         return this.repositorio.obtenerColocacion({
-            fechaInicioCorte: DateTime.fromFormat(filtros.fechaFinalCorte, FormatoFechas.FECHA_SAFIX)
+            fechaInicioCorte: DateTime.fromFormat(filtros.fechaInicioCorte, FormatoFechas.FECHA_SAFIX)
                                 .minus({ years: 1 }).toFormat(FormatoFechas.FECHA_SAFIX),
             fechaFinalCorte: DateTime.fromFormat(filtros.fechaFinalCorte, FormatoFechas.FECHA_SAFIX)
                                 .minus({years: 1}).toFormat(FormatoFechas.FECHA_SAFIX)

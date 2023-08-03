@@ -25,23 +25,27 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
             grupoDatos: [],
             tipo: 'LINEA'
         })
-        reporte.colocacion.agregarGrupoDatos({
-            datos: colocacion.fianzasNetas.map( fn => fn.valorColocacion),
-            color: COLORES_GRAFICOS[COLOR_PRIMER_GRUPO_DATOS],
-            etiqueta: colocacion.fianzasNetas[0].anioLote
-        })
-        reporte.colocacion.agregarGrupoDatos({
-            datos: colocacionAnterior.fianzasNetas.map( fn => fn.valorColocacion),
-            color: COLORES_GRAFICOS[COLOR_SEGUNDO_GRUPO_DATOS],
-            etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
-        })
+        if(colocacion.fianzasNetas.length > 0){
+            reporte.colocacion.agregarGrupoDatos({
+                datos: colocacion.fianzasNetas.map( fn => fn.valorColocacion),
+                color: COLOR_PRIMER_GRUPO_DATOS,
+                etiqueta: colocacion.fianzasNetas[0].anioLote
+            })
+        }
+        if(colocacionAnterior.fianzasNetas.length > 0){
+            reporte.colocacion.agregarGrupoDatos({
+                datos: colocacionAnterior.fianzasNetas.map( fn => fn.valorColocacion),
+                color: COLOR_SEGUNDO_GRUPO_DATOS,
+                etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
+            })
+        }
 
         reporte.generos = new Grafico({
             tipo: 'DONA',
             grupoDatos: [ 
                 new GrupoDato({
                     datos: colocacion.generos.map( gen => gen.cantidad ),
-                    colores: colocacion.generos.map( (_, indice) => COLORES_GRAFICOS[ COLORES_GRAFICOS.length % indice ] ),
+                    colores: colocacion.generos.map( (_, indice) => COLORES_GRAFICOS[ indice % COLORES_GRAFICOS.length ] ),
                     etiquetas: colocacion.generos.map( gen => gen.sexo ),
                 }) 
             ]
@@ -63,17 +67,20 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
             grupoDatos: [],
             etiquetas: colocacion.coberturasDisponibles.map( (fn) => MESES_SAFIX[fn.fechaMes]),
         })
-        reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
-            datos: colocacion.coberturasDisponibles.map( cob => cob.numeroCreditos ),
-            color: COLOR_PRIMER_GRUPO_DATOS,
-            etiqueta: colocacion.fianzasNetas[0].anioLote
-        }))
-        reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
-            datos: colocacionAnterior.coberturasDisponibles.map( cob => cob.numeroCreditos ),
-            color: COLOR_SEGUNDO_GRUPO_DATOS,
-            etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
-        }))
-
+        if(colocacion.fianzasNetas.length > 0){
+            reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
+                datos: colocacion.coberturasDisponibles.map( cob => cob.numeroCreditos ),
+                color: COLOR_PRIMER_GRUPO_DATOS,
+                etiqueta: colocacion.fianzasNetas[0].anioLote
+            }))
+        }
+        if(colocacionAnterior.fianzasNetas.length > 0){
+            reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
+                datos: colocacionAnterior.coberturasDisponibles.map( cob => cob.numeroCreditos ),
+                color: COLOR_SEGUNDO_GRUPO_DATOS,
+                etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
+            }))
+        }
         reporte.coberturasDisponibles = colocacion.coberturasDisponibles
 
         return reporte

@@ -42,7 +42,8 @@
     "./start/Rutas/ruta_autenticacion",
     "./start/Rutas/ruta_enviar_email",
     "./start/Rutas/ruta_pagos",
-    "./start/Rutas/ruta_rol"
+    "./start/Rutas/ruta_rol",
+    "./start/Rutas/ruta_reporte"
   ],
   "providers": [
     "./providers/AppProvider",

@@ -62,7 +62,7 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
             })
             reporte.fianzasNetas.agregarGrupoDatos({
                 datos: colocacionAnterior.fianzasNetas.map( fn => fn.valorFianzaNeta),
-                color: COLOR_PRIMER_GRUPO_DATOS,
+                color: COLOR_SEGUNDO_GRUPO_DATOS,
                 etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
             })
             reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({

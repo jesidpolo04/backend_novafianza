@@ -1,4 +1,5 @@
 
+import { DateTime } from "luxon";
 import { CoberturaDisponible } from "./CoberturaDisponible";
 import { Departamento } from "./Departamento";
 import { FianzaNeta } from "./FianzaNeta";
@@ -34,5 +35,15 @@ export class Colocacion{
 
     agregarCoberturaDisponible(cobertura: CoberturaDisponible){
         this.coberturasDisponibles.push(cobertura)
+    }
+
+    ordenarFianzasNetas(){
+        this.fianzasNetas.sort( (a, b) => {
+            const fechaA = DateTime.fromFormat(`${a.anioLote}-${a.mesLote}`, 'yyyy-MM')
+            const fechaB = DateTime.fromFormat(`${b.anioLote}-${b.mesLote}`, 'yyyy-MM')
+            if(fechaA > fechaB) return 1;
+            if(fechaA > fechaB) return -1;
+            return 0; 
+        })
     }
 }

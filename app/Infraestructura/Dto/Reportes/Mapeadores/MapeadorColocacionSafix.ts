@@ -56,6 +56,8 @@ export class MapeadorColocacionSafix{
             }))
         })
 
+        colocacion.ordenarFianzasNetas()
+
         return colocacion
     }
 }

@@ -42,7 +42,7 @@ export class Colocacion{
             const fechaA = DateTime.fromFormat(`${a.anioLote}-${a.mesLote}`, 'yyyy-MM')
             const fechaB = DateTime.fromFormat(`${b.anioLote}-${b.mesLote}`, 'yyyy-MM')
             if(fechaA > fechaB) return 1;
-            if(fechaA > fechaB) return -1;
+            if(fechaA < fechaB) return -1;
             return 0; 
         })
     }

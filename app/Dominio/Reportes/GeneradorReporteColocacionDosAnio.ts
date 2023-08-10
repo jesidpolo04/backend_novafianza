@@ -80,6 +80,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             ]
         })
         reporte.coberturasDisponibles = colocacion.coberturasDisponibles
+        reporte.resumen = colocacion.resumenColocacion
         return reporte
     }
 

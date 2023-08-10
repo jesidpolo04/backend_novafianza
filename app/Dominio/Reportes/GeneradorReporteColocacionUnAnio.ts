@@ -95,6 +95,7 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
         })
 
         reporte.coberturasDisponibles = colocacion.coberturasDisponibles
+        reporte.resumen = colocacion.resumenColocacion
 
         return reporte
     }

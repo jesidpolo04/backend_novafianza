@@ -21,10 +21,13 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
         const [colocacion, colocacionAnterior] = await Promise.all([ promesaColocacion, promesaColocacionAnterior ])
         const reporte = new ReporteColocacion()
         let etiquetas: string[] = []
+        let codigoMeses: string[] = []
         if(colocacion.fianzasNetas.length >= colocacionAnterior.fianzasNetas.length){
             etiquetas =  colocacion.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote])
+            codigoMeses = colocacion.fianzasNetas.map( fn => fn.mesLote )
         }else{
             etiquetas = colocacionAnterior.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote])
+            codigoMeses = colocacionAnterior.fianzasNetas.map( fn => fn.mesLote )
         }
         reporte.colocacion = new Grafico({
             etiquetas,
@@ -62,12 +65,18 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
 
         if(colocacionAnterior.fianzasNetas.length > 0){
             reporte.colocacion.agregarGrupoDatos({
-                datos: colocacionAnterior.fianzasNetas.map( fn => fn.valorColocacion),
+                datos: codigoMeses.map( codigoMes => {
+                    let fianzaNeta = colocacionAnterior.fianzasNetas.find( fianzaNeta => fianzaNeta.mesLote === codigoMes )
+                    return fianzaNeta ? fianzaNeta.valorColocacion : null
+                }),
                 color: COLOR_SEGUNDO_GRUPO_DATOS,
                 etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
             })
             reporte.fianzasNetas.agregarGrupoDatos({
-                datos: colocacionAnterior.fianzasNetas.map( fn => fn.valorFianzaNeta),
+                datos: codigoMeses.map( codigoMes => {
+                    let fianzaNeta = colocacionAnterior.fianzasNetas.find( fianzaNeta => fianzaNeta.mesLote === codigoMes )
+                    return fianzaNeta ? fianzaNeta.valorFianzaNeta : null
+                }),
                 color: COLOR_SEGUNDO_GRUPO_DATOS,
                 etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
             })

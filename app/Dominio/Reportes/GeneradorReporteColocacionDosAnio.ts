@@ -116,17 +116,17 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         })
         reporte.fianzasNetas.agregarGrupoDatos({
             datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorFianzaNeta), true ),
-            color: COLORES_GRAFICOS[0],
+            color: '#00A4EA',
             etiqueta: coloMayor.fianzasNetas[0].anioLote
         })
         reporte.fianzasNetas.agregarGrupoDatos({
             datos: coloMedio.fianzasNetas.map(fn => fn.valorFianzaNeta),
-            color: COLORES_GRAFICOS[1],
+            color: '#FFAA00',
             etiqueta: coloMedio.fianzasNetas[0].anioLote
         })
         reporte.fianzasNetas.agregarGrupoDatos({
             datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorFianzaNeta), false ),
-            color: COLORES_GRAFICOS[2],
+            color: '#32BEC1',
             etiqueta: coloMenor.fianzasNetas[0].anioLote
         })
     }

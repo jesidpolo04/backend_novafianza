@@ -90,19 +90,20 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             grupoDatos: [],
             tipo: 'LINEA'
         })
+
         reporte.colocacion.agregarGrupoDatos({
             datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorColocacion), true ),
-            color: COLORES_GRAFICOS[0],
+            color: '#00A4EA', //AZUL
             etiqueta: coloMayor.fianzasNetas[0].anioLote
         })
         reporte.colocacion.agregarGrupoDatos({
             datos: coloMedio.fianzasNetas.map(fn => fn.valorColocacion),
-            color: COLORES_GRAFICOS[1],
+            color: '#FFAA00', //AMARILLO
             etiqueta: coloMedio.fianzasNetas[0].anioLote
         })
         reporte.colocacion.agregarGrupoDatos({
             datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorColocacion), false ),
-            color: COLORES_GRAFICOS[2],
+            color: '#32BEC1', //VERDE FRIO
             etiqueta: coloMenor.fianzasNetas[0].anioLote
         })
     }

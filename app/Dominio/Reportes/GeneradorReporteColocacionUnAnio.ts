@@ -14,19 +14,25 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
     constructor(private repositorio: RepositorioReportes){}
 
     async generar(filtros: FiltrosColocacion): Promise<ReporteColocacion> {
-        const COLOR_PRIMER_GRUPO_DATOS = COLORES_GRAFICOS[0]
-        const COLOR_SEGUNDO_GRUPO_DATOS = COLORES_GRAFICOS[1]
+        const COLOR_PRIMER_GRUPO_DATOS = '#00A4EA' //AZUL
+        const COLOR_SEGUNDO_GRUPO_DATOS = '#FFAA00' //AMARILLO
         const promesaColocacion = this.repositorio.obtenerColocacion(filtros)
         const promesaColocacionAnterior = this.obtenerPeriodoAnterior(filtros)
         const [colocacion, colocacionAnterior] = await Promise.all([ promesaColocacion, promesaColocacionAnterior ])
         const reporte = new ReporteColocacion()
+        let etiquetas: string[] = []
+        if(colocacion.fianzasNetas.length >= colocacionAnterior.fianzasNetas.length){
+            etiquetas =  colocacion.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote])
+        }else{
+            etiquetas = colocacionAnterior.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote])
+        }
         reporte.colocacion = new Grafico({
-            etiquetas: colocacion.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote]),
+            etiquetas,
             grupoDatos: [],
             tipo: 'LINEA'
         })
         reporte.fianzasNetas = new Grafico({
-            etiquetas: colocacion.fianzasNetas.map( (fn) => MESES_SAFIX[fn.mesLote]),
+            etiquetas,
             grupoDatos: [],
             tipo: 'LINEA'
         })

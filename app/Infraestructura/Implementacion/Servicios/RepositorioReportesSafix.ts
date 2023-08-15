@@ -15,7 +15,7 @@ export class RepositorioReportesSafix implements RepositorioReportes{
 
    constructor(private http: ClienteHttp){}
     async obtenerOperaciones(filtrosOperaciones: FiltrosOperaciones): Promise<Operaciones> {
-        const endpoint = 'ConsultarColocacion/ConsultarDatosColocacion'
+        const endpoint = 'ConsultarOperaciones/ConsultarDatosOperaciones'
         const cuerpo = {
            pEntidad: "890914526",
            pFechaInicioDesembolso: filtrosOperaciones.fechaFinalDesembolso,

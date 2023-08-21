@@ -18,7 +18,7 @@ export class RepositorioReportesSafix implements RepositorioReportes{
         const endpoint = 'ConsultarOperaciones/ConsultarDatosOperaciones'
         const cuerpo = {
            pEntidad: "890914526",
-           pFechaInicioDesembolso: filtrosOperaciones.fechaFinalDesembolso,
+           pFechaInicioDesembolso: filtrosOperaciones.fechaInicioDesembolso,
            pFechaFinalDesembolso: filtrosOperaciones.fechaFinalDesembolso,
            pFechaInicioCorte: "",
            pFechaFinalCorte: "",

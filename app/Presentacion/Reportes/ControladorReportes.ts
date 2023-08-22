@@ -4,6 +4,7 @@ import { ServicioReportes } from 'App/Dominio/Datos/Servicios/ServicioReportes'
 import { RepositorioReportesSafix } from 'App/Infraestructura/Implementacion/Servicios/RepositorioReportesSafix'
 import { ClienteHttpAxios } from 'App/Infraestructura/ClientesHttp/ClienteHttpAxios'
 import { schemaFiltroOperaciones } from './Validadores/ValidadorFiltroOperaciones'
+import { schemaFiltrosSaldosCartera } from './Validadores/ValidadorFiltroSaldosCartera'
 
 export default class ControladorReportes {
   private servicio: ServicioReportes
@@ -21,6 +22,12 @@ export default class ControladorReportes {
   async operaciones({ request, response }: HttpContextContract){
     const filtros = await request.validate({ schema: schemaFiltroOperaciones })
     const reporte = await this.servicio.obtenerReporteOperaciones(filtros)
+    response.status(200).send(reporte)
+  }
+
+  async saldosCartera({ request, response }: HttpContextContract){
+    const filtros  = await request.validate({ schema: schemaFiltrosSaldosCartera })
+    const reporte = await this.servicio.obtenerReporteSaldosCartera(filtros)
     response.status(200).send(reporte)
   }
 

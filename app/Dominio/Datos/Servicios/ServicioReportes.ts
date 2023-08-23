@@ -10,6 +10,8 @@ import { RepositorioReportes } from "App/Dominio/Repositorios/RepositorioReporte
 import { DateTime } from "luxon";
 import { Operaciones } from "../Entidades/Reportes/Operaciones/Operaciones";
 import { FiltrosSaldosCartera } from "App/Dominio/Dto/Reportes/FiltrosSaldosCartera";
+import { ReporteSaldosCartera } from "App/Dominio/Dto/Reportes/ReporteSaldosCartera";
+import { GeneradorReporteSaldosCartera } from "App/Dominio/Reportes/GeneradorReporteSaldosCartera";
 
 export class ServicioReportes{
     constructor(private repositorio: RepositorioReportes){}
@@ -39,6 +41,8 @@ export class ServicioReportes{
     }
 
     async obtenerReporteSaldosCartera(filtros: FiltrosSaldosCartera): Promise<any>{
-        return this.repositorio.obtenerSaldosCartera(filtros)
+        const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros)
+        saldosCartera.flowRate[0].rango_0_30
+        return GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
     }
 }

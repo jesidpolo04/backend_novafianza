@@ -1,5 +1,6 @@
 export interface ReporteSaldosCartera{
     rodamientoCartera: RodamientoCartera[]
+    cosechas: Cosechas
 }
 
 export interface RodamientoCartera{
@@ -17,4 +18,24 @@ export interface RodamientoCartera{
     rango_301_330Dias: number | null
     rango_331_360Dias: number | null
     rango_361MasDias: number | null
+}
+
+export interface Cosechas{
+    cabecerasMeses: string[]
+    cosechas: Cosecha[]
+}
+
+export interface Cosecha{
+    fecha: string
+    vlrColocacion: number
+    numCreditos: number
+    ticket: number
+    plazo: number
+    saldo: number
+    mesesMaduracion: MesMaduracion[]
+}
+
+export interface MesMaduracion{
+    mes: string
+    valor: number
 }

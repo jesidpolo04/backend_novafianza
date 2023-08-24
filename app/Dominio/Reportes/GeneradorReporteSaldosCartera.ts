@@ -1,10 +1,11 @@
 import { SaldosCartera } from "../Datos/Entidades/Reportes/SaldosCartera/SaldosCartera";
-import { ReporteSaldosCartera, RodamientoCartera } from "../Dto/Reportes/ReporteSaldosCartera";
+import { Cosecha, Cosechas, ReporteSaldosCartera, RodamientoCartera } from "../Dto/Reportes/ReporteSaldosCartera";
 
 export class GeneradorReporteSaldosCartera{
     static generarReporte(saldosCartera: SaldosCartera): ReporteSaldosCartera{
         return {
-            rodamientoCartera: this.generarTablaDeRodamientosCartera(saldosCartera)
+            rodamientoCartera: this.generarTablaDeRodamientosCartera(saldosCartera),
+            cosechas: this.generarTablaCosechas(saldosCartera)
         }
     }
 
@@ -30,5 +31,28 @@ export class GeneradorReporteSaldosCartera{
             })
         })
         return rodamientosCartera
+    }
+
+    static generarTablaCosechas(saldosCartera: SaldosCartera): Cosechas{
+        let cabeceras: string[] = []
+        let cosechas: Cosecha[] = []
+        saldosCartera.saldosCarteraCosechas.forEach( cosecha => {
+            if(cosecha.mesesMaduracion.length > cabeceras.length){
+                cabeceras = cosecha.mesesMaduracion.map( mesMaduracion => mesMaduracion.mes )
+            }
+            cosechas.push({
+                fecha: cosecha.fechaColocacion ?? "SIN FECHA",
+                mesesMaduracion: cosecha.mesesMaduracion,
+                numCreditos: cosecha.numCreditos,
+                plazo: cosecha.plazo,
+                saldo: 0,
+                ticket: cosecha.ticket,
+                vlrColocacion: cosecha.vlrColocacion
+            })
+        })
+        return {
+            cabecerasMeses: cabeceras,
+            cosechas: cosechas
+        }
     }
 }

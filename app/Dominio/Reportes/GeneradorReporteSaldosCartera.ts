@@ -13,7 +13,8 @@ export class GeneradorReporteSaldosCartera{
             amortizacion: this.generarAmortizacion(saldosCartera),
             perdidaIncurrida: this.generarPerdidaIncurrida(saldosCartera),
             disponibleCoberturas: this.generarDisponibleCoberturas(saldosCartera),
-            PerdidaPotencial: this.generarPerdidaPotencial(saldosCartera)
+            perdidaPotencial: this.generarPerdidaPotencial(saldosCartera),
+            totales: saldosCartera.variablesTotales
         }
     }
 

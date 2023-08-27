@@ -1,3 +1,4 @@
+import { VariablesTotales } from "App/Dominio/Datos/Entidades/Reportes/SaldosCartera/SaldosCartera"
 import { GrupoDato } from "./Grafico"
 
 export interface ReporteSaldosCartera{
@@ -7,7 +8,8 @@ export interface ReporteSaldosCartera{
     amortizacion: Amortizacion
     perdidaIncurrida: PerdidaIncurrida[]
     disponibleCoberturas: DisponibleCoberturasAlturaMora[]
-    PerdidaPotencial: PerdidaPotencial
+    perdidaPotencial: PerdidaPotencial
+    totales: VariablesTotales
 }
 
 export interface RodamientoCartera{

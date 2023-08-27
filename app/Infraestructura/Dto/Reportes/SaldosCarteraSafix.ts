@@ -1,48 +1,48 @@
 import { Indicador } from "App/Dominio/Datos/Entidades/Reportes/SaldosCartera/Indicador";
 
 export interface SaldosCarteraSafix {
-    SaldosCarteraCosechas:     Reclamacion[];
-    SaldosCarteraVencidos:     Reclamacion[];
-    Reclamaciones:             Reclamacion[];
+    SaldosCarteraCosechas: Reclamacion[];
+    SaldosCarteraVencidos: Reclamacion[];
+    Reclamaciones: Reclamacion[];
     SaldosCarteraCosechaPorce: Reclamacion[];
-    SaldosCapital:             Reclamacion[];
-    Amortizacion:              any[];
-    EvolucionSaldosCartera:    EvolucionSaldosCartera[];
-    CoberturasDisponibles:     CoberturasDisponible[];
-    Coberturas:                Cobertura[];
-    FlowRate:                  Rangos[];
-    VariablesTotales:          VariablesTotales;
-    RespuestaMetodo:           RespuestaMetodo;
+    SaldosCapital: Reclamacion[];
+    Amortizacion: Amortizacion[];
+    EvolucionSaldosCartera: EvolucionSaldosCartera[];
+    CoberturasDisponibles: CoberturasDisponible[];
+    Coberturas: Cobertura[];
+    FlowRate: Rangos[];
+    VariablesTotales: VariablesTotales;
+    RespuestaMetodo: RespuestaMetodo;
 }
 
 export interface Cobertura {
-    Periodo:                 string;
-    VlrColocacion:           number;
-    VlrFianzasNetas:         number;
-    VlrDoisponiblePagos:     number;
+    Periodo: string;
+    VlrColocacion: number;
+    VlrFianzasNetas: number;
+    VlrDoisponiblePagos: number;
     VlrReclamacionPenUltMes: number;
-    VlrReclamacionUltMes:    number;
-    VlrDisponiblePagosNeto:  number;
-    VlrPerdidaIncurrida:     number;
-    VlrSaldoMoraMas120:      number;
-    VlrPerdidaPotencial:     number;
+    VlrReclamacionUltMes: number;
+    VlrDisponiblePagosNeto: number;
+    VlrPerdidaIncurrida: number;
+    VlrSaldoMoraMas120: number;
+    VlrPerdidaPotencial: number;
 }
 
 export interface CoberturasDisponible {
-    Periodo:                string;
-    Indicador:              Indicador;
-    Valor:                  number;
+    Periodo: string;
+    Indicador: Indicador;
+    Valor: number;
     VlrDisponibleCobertura: number;
     VlrPorcentajeCobertura: number;
 }
 
 export interface EvolucionSaldosCartera {
-    Periodo:                    string;
-    Indicador:                  Indicador;
-    Valor:                      number;
-    ValorPorcentaje:            number;
+    Periodo: string;
+    Indicador: Indicador;
+    Valor: number;
+    ValorPorcentaje: number;
     VlrDisponibleNetoCobertura: number;
-    VlrPorcentajeCobertura:     number;
+    VlrPorcentajeCobertura: number;
 }
 
 export interface Rangos {
@@ -61,26 +61,26 @@ export interface Rangos {
     Rango_361Mas: FlowRate[]
 }
 
-export interface FlowRate{
+export interface FlowRate {
     Periodo: string
     Valor: number
 }
 
 export interface Reclamacion {
     FechaColocacion: null | string;
-    VlrColocacion:   number;
-    NumCreditos:     number;
-    Ticket:          number;
-    Plazo:           number;
+    VlrColocacion: number;
+    NumCreditos: number;
+    Ticket: number;
+    Plazo: number;
     MesesMaduracion: MesMaduracion[];
 }
 
 export interface MesMaduracion {
-    Mes:   string;
+    Mes: string;
     Valor: number;
 }
 
-export interface VariablesTotales{
+export interface VariablesTotales {
     ICV30mas: number,
     ICV60mas: number,
     ICV120mas: number,
@@ -93,7 +93,21 @@ export interface VariablesTotales{
 }
 
 export interface RespuestaMetodo {
-    IdRetorno:      number;
+    IdRetorno: number;
     MensajeRetorno: string;
-    TrazaError:     string;
+    TrazaError: string;
+}
+
+export interface Amortizacion {
+    FechaColocacion: string;
+    VlrColocacion: number;
+    NumCreditos: number;
+    Ticket: number;
+    Plazo: number;
+    ValoresAmortizacion: ValorAmortizacion[]
+}
+
+export interface ValorAmortizacion{
+    SaldoCapital: number;
+    PorcentajeAmortizacion: number;
 }

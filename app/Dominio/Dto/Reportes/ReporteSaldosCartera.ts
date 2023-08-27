@@ -1,6 +1,13 @@
+import { GrupoDato } from "./Grafico"
+
 export interface ReporteSaldosCartera{
     rodamientoCartera: RodamientoCartera[]
     cosechas: Cosechas
+    evolucionSaldosCartera: EvolucionSaldosCartera
+    amortizacion: Amortizacion
+    perdidaIncurrida: PerdidaIncurrida[]
+    disponibleCoberturas: DisponibleCoberturasAlturaMora[]
+    PerdidaPotencial: PerdidaPotencial
 }
 
 export interface RodamientoCartera{
@@ -38,4 +45,50 @@ export interface Cosecha{
 export interface MesMaduracion{
     mes: string
     valor: number
+}
+
+export interface EvolucionSaldosCartera{
+    etiquetas: string[]
+    subEtiquetas: SubEtiquetaAnio[]
+    saldos: GrupoDato
+    icv30: GrupoDato
+    icv60: GrupoDato
+    icv120: GrupoDato
+    icv150: GrupoDato
+}
+
+export interface SubEtiquetaAnio{
+    anio: string
+    numeroMeses: number
+}
+
+export interface Amortizacion{
+    etiquetas: string[]
+    subEtiquetas: SubEtiquetaAnio[]
+    amortizacion: GrupoDato
+}
+
+export interface PerdidaIncurrida{
+    fechaColocacion: string
+    colocacion: number
+    fianzasNetas: number
+    disponibleParaPagos: number
+    reclamacionHastaPenultimoMes: number
+    reclamacionUltimoMes: number
+    disponibleParaPagoNeto: number
+    perdidaIncurrida: number
+    saldos120Mas: number
+    disponibleCoberturaPorAlturaDeMora: number
+}
+
+export interface DisponibleCoberturasAlturaMora{
+    alturaMora: string
+    saldoPorAlturaMora: number
+    disponibleParaCoberturas: number
+    porcentajeCobertura: number
+}
+
+export interface PerdidaPotencial{
+    porcentajeCobertura60Mas: number | null,
+    porcentajeCobertura120Mas: number | null
 }

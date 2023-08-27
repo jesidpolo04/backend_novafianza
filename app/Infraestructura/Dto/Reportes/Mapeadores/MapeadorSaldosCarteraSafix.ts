@@ -1,4 +1,4 @@
-import { Cobertura, CoberturaDisponible, EvolucionSaldosCartera, FlowRate, MesMaduracion, RangosFlowRate, Reclamacion, SaldosCartera, VariablesTotales } from "App/Dominio/Datos/Entidades/Reportes/SaldosCartera/SaldosCartera";
+import { Amortizacion, Cobertura, CoberturaDisponible, EvolucionSaldosCartera, FlowRate, MesMaduracion, RangosFlowRate, Reclamacion, SaldosCartera, VariablesTotales } from "App/Dominio/Datos/Entidades/Reportes/SaldosCartera/SaldosCartera";
 import { SaldosCarteraSafix } from "../SaldosCarteraSafix";
 
 export class MapeadorSaldosCarteraSafix{
@@ -213,6 +213,22 @@ export class MapeadorSaldosCarteraSafix{
                 valorPorcentaje: eSaldosCarteraSafix.ValorPorcentaje,
                 vlrDisponibleNetoCobertura: eSaldosCarteraSafix.VlrDisponibleNetoCobertura,
                 vlrPorcentajeCobertura: eSaldosCarteraSafix.VlrPorcentajeCobertura
+            }))
+        })
+
+        saldosCarteraSafix.Amortizacion.forEach( amortizacionSafix => {
+            saldosCartera.amortizacion.push(new Amortizacion({
+                fechaColocacion: amortizacionSafix.FechaColocacion,
+                numCreditos: amortizacionSafix.NumCreditos,
+                plazo: amortizacionSafix.Plazo,
+                ticket: amortizacionSafix.Ticket,
+                vlrColocacion: amortizacionSafix.VlrColocacion,
+                valoresAmortizacion: amortizacionSafix.ValoresAmortizacion.map( valorAmortizacionSafix => {
+                    return {
+                        porcentajeAmortizacion: valorAmortizacionSafix.PorcentajeAmortizacion,
+                        saldoCapital: valorAmortizacionSafix.SaldoCapital
+                    }
+                })
             }))
         })
 

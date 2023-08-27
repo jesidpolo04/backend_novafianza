@@ -6,7 +6,7 @@ export class SaldosCartera {
     reclamaciones: Reclamacion[];
     saldosCarteraCosechaPorce: Reclamacion[];
     saldosCapital: Reclamacion[];
-    amortizacion: any[];
+    amortizacion: Amortizacion[];
     evolucionSaldosCartera: EvolucionSaldosCartera[];
     coberturasDisponibles: CoberturaDisponible[];
     coberturas: Cobertura[];
@@ -31,43 +31,43 @@ export class SaldosCartera {
         this.variablesTotales = totales
     }
 
-    ordenarSaldosCarteraCosechas(): void{
+    ordenarSaldosCarteraCosechas(): void {
         //implementar
     }
 
-    ordernarSaldosCarteraVencidos(): void{
+    ordernarSaldosCarteraVencidos(): void {
         //implementar
     }
 
-    ordenarReclamaciones(): void{
+    ordenarReclamaciones(): void {
         //implementar
     }
 
-    ordenarSaldosCarteraCosechaPorce(): void{
+    ordenarSaldosCarteraCosechaPorce(): void {
         //implementar
     }
 
-    ordenarSaldosCapital(): void{
+    ordenarSaldosCapital(): void {
         //implementar
     }
 
-    ordernarAmortizacion(): void{
+    ordernarAmortizacion(): void {
         //implementar
     }
 
-    ordenarEvolucionSaldosCartera(): void{
+    ordenarEvolucionSaldosCartera(): void {
         //implementar
     }
 
-    ordenarCoberturasDisponibles(): void{
+    ordenarCoberturasDisponibles(): void {
         //implementar
     }
 
-    ordenarCoberturas(): void{
+    ordenarCoberturas(): void {
         //implementar
     }
 
-    ordernarFlowRates(): void{
+    ordernarFlowRates(): void {
         //implementar
     }
 }
@@ -303,8 +303,54 @@ export class MesMaduracion {
         this.mes = mes
         this.valor = valor
     }
+}
 
+export class Amortizacion {
+    fechaColocacion: string;
+    vlrColocacion: number;
+    numCreditos: number;
+    ticket: number;
+    plazo: number;
+    valoresAmortizacion: ValorAmortizacion[]
 
+    constructor({
+        fechaColocacion,
+        vlrColocacion,
+        numCreditos,
+        ticket,
+        plazo,
+        valoresAmortizacion
+    }: {
+        fechaColocacion: string;
+        vlrColocacion: number;
+        numCreditos: number;
+        ticket: number;
+        plazo: number;
+        valoresAmortizacion?: ValorAmortizacion[]
+    }) {
+        this.fechaColocacion = fechaColocacion
+        this.vlrColocacion = vlrColocacion
+        this.numCreditos = numCreditos
+        this.ticket = ticket
+        this.plazo = plazo
+        this.valoresAmortizacion = valoresAmortizacion ?? []
+    }
+}
+
+export class ValorAmortizacion {
+    saldoCapital: number;
+    porcentajeAmortizacion: number;
+
+    constructor({
+        saldoCapital,
+        porcentajeAmortizacion
+    }: {
+        saldoCapital: number,
+        porcentajeAmortizacion: number,
+    }) {
+        this.saldoCapital = saldoCapital
+        this.porcentajeAmortizacion = porcentajeAmortizacion
+    }
 }
 
 export class VariablesTotales {

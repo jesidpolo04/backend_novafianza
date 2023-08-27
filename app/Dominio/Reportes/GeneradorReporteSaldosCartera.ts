@@ -116,9 +116,9 @@ export class GeneradorReporteSaldosCartera{
                 icv30.datos.push(evolucion.valor * evolucion.valorPorcentaje)
                 saldos.datos.push(evolucion.valor)
             }
-            if(evolucion.indicador === 'ICV 60+') icv30.datos.push(evolucion.valor * evolucion.valorPorcentaje);
-            if(evolucion.indicador === 'ICV 120+') icv30.datos.push(evolucion.valor * evolucion.valorPorcentaje);
-            if(evolucion.indicador === 'ICV 150+') icv30.datos.push(evolucion.valor * evolucion.valorPorcentaje);
+            if(evolucion.indicador === 'ICV 60+') icv60.datos.push(evolucion.valor * evolucion.valorPorcentaje);
+            if(evolucion.indicador === 'ICV 120+') icv120.datos.push(evolucion.valor * evolucion.valorPorcentaje);
+            if(evolucion.indicador === 'ICV 150+') icv150.datos.push(evolucion.valor * evolucion.valorPorcentaje);
         })
 
         return {

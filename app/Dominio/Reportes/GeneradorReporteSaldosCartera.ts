@@ -114,12 +114,12 @@ export class GeneradorReporteSaldosCartera{
 
         saldosCartera.evolucionSaldosCartera.forEach( evolucion =>{
             if(evolucion.indicador === 'ICV 30+'){
-                icv30.datos.push(evolucion.valor * evolucion.valorPorcentaje)
+                icv30.datos.push(evolucion.valor * (evolucion.valorPorcentaje / 100))
                 saldos.datos.push(evolucion.valor)
             }
-            if(evolucion.indicador === 'ICV 60+') icv60.datos.push(evolucion.valor * evolucion.valorPorcentaje);
-            if(evolucion.indicador === 'ICV 120+') icv120.datos.push(evolucion.valor * evolucion.valorPorcentaje);
-            if(evolucion.indicador === 'ICV 150+') icv150.datos.push(evolucion.valor * evolucion.valorPorcentaje);
+            if(evolucion.indicador === 'ICV 60+') icv60.datos.push(evolucion.valor * (evolucion.valorPorcentaje / 100));
+            if(evolucion.indicador === 'ICV 120+') icv120.datos.push(evolucion.valor * (evolucion.valorPorcentaje / 100));
+            if(evolucion.indicador === 'ICV 150+') icv150.datos.push(evolucion.valor * (evolucion.valorPorcentaje / 100));
         })
 
         return {

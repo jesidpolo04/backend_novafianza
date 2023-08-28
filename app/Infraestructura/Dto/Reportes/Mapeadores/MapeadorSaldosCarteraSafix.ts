@@ -32,6 +32,7 @@ export class MapeadorSaldosCarteraSafix{
                 vlrColocacion: scs.VlrColocacion 
             }))
         })
+        saldosCartera.ordenarSaldosCarteraCosechas()
 
         saldosCarteraSafix.SaldosCarteraCosechaPorce.forEach( scsp => {
             saldosCartera.saldosCarteraCosechaPorce.push( new Reclamacion({

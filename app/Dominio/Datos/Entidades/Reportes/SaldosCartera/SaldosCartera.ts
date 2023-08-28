@@ -33,7 +33,24 @@ export class SaldosCartera {
     }
 
     ordenarSaldosCarteraCosechas(): void {
-        //implementar
+        this.saldosCarteraCosechas.sort( (a, b) =>{
+            let periodoA = a.fechaColocacion;
+            let periodoB = b.fechaColocacion;
+            if(!periodoA) return 1;
+            if(!periodoB) return -1;
+            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";  
+            let formatoB = periodoB.length > 5 ? "yyyyMM" : "yyyyM";
+            let fechaA = DateTime.fromFormat(periodoA, formatoA)  
+            let fechaB = DateTime.fromFormat(periodoB, formatoB)
+            if(fechaA > fechaB){
+                return 1
+            }else if(fechaB > fechaA){
+                return -1
+            }
+            else{
+                return 0
+            }
+        })
     }
 
     ordernarSaldosCarteraVencidos(): void {

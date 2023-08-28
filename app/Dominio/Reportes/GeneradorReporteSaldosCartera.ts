@@ -56,8 +56,16 @@ export class GeneradorReporteSaldosCartera{
             if(cosecha.mesesMaduracion.length > cabeceras.length){
                 cabeceras = cosecha.mesesMaduracion.map( mesMaduracion => mesMaduracion.mes )
             }
+            let fecha = ""
+            if(cosecha.fechaColocacion){
+                fecha = cosecha.fechaColocacion
+                let formato = fecha.length > 5 ? "yyyyMM" : "yyyyM";
+                fecha = DateTime.fromFormat(fecha, formato).toFormat('yyyy-MM')
+            }else{
+                fecha = "SIN FECHA"
+            }
             cosechas.push({
-                fecha: cosecha.fechaColocacion ?? "SIN FECHA",
+                fecha: fecha,
                 mesesMaduracion: cosecha.mesesMaduracion,
                 numCreditos: cosecha.numCreditos,
                 plazo: cosecha.plazo,

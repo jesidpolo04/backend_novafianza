@@ -1,3 +1,4 @@
+import { DateTime } from "luxon";
 import { Indicador } from "./Indicador";
 
 export class SaldosCartera {
@@ -68,7 +69,22 @@ export class SaldosCartera {
     }
 
     ordernarFlowRates(): void {
-        //implementar
+        this.flowRate.sort( (a, b) =>{
+            let periodoA = a.rango_0_30[0].periodo;
+            let periodoB = b.rango_0_30[0].periodo;
+            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";  
+            let formatoB = periodoB.length > 5 ? "yyyyMM" : "yyyyM";
+            let fechaA = DateTime.fromFormat(periodoA, formatoA)  
+            let fechaB = DateTime.fromFormat(periodoB, formatoB)
+            if(fechaA > fechaB){
+                return 1
+            }else if(fechaB > fechaA){
+                return -1
+            }
+            else{
+                return 0
+            }
+        })
     }
 }
 

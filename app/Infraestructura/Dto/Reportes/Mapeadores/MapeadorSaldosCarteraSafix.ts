@@ -179,6 +179,7 @@ export class MapeadorSaldosCarteraSafix{
                 }),
             }))
         })
+        saldosCartera.ordernarFlowRates()
 
         saldosCarteraSafix.Coberturas.forEach( coberturaSafix =>{
             saldosCartera.coberturas.push(new Cobertura({

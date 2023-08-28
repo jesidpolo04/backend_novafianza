@@ -21,7 +21,14 @@ export class GeneradorReporteSaldosCartera{
     static generarTablaDeRodamientosCartera(saldosCartera: SaldosCartera): RodamientoCartera[]{
         const rodamientosCartera: RodamientoCartera[] = [] 
         saldosCartera.flowRate.forEach( rango => {
-            let fechaCierre = rango.rango_0_30.length > 0 ? rango.rango_0_30[0].periodo : "PRIMER RANGO VACÍO"
+            let fechaCierre = ""
+            if(rango.rango_0_30.length > 0){
+                fechaCierre = rango.rango_0_30[0].periodo
+                let formato = fechaCierre.length > 5 ? "yyyyMM" : "yyyyM"
+                fechaCierre = DateTime.fromFormat(fechaCierre, formato).toFormat("yyyy-MM")
+            }else{
+                fechaCierre = "PRIMER RANGO VACÍO"
+            }
             rodamientosCartera.push({
                 fechaCierre: fechaCierre,
                 rango_0_30Dias: rango.rango_0_30.length > 0 ? rango.rango_0_30[0].valor : null,

@@ -13,6 +13,7 @@ import { MapeadorOperacionesSafix } from "App/Infraestructura/Dto/Reportes/Mapea
 import { MapeadorSaldosCarteraSafix } from "App/Infraestructura/Dto/Reportes/Mapeadores/MapeadorSaldosCarteraSafix";
 import { OperacionesSafix } from "App/Infraestructura/Dto/Reportes/OperacionesSafix";
 import { SaldosCarteraSafix } from "App/Infraestructura/Dto/Reportes/SaldosCarteraSafix";
+import { saldosCarteraSafixMock } from "App/Infraestructura/Utils/MockSaldosCartera";
 
 export class RepositorioReportesSafix implements RepositorioReportes {
     private readonly BASE_URL = Env.get('URL_REPORTES_SAFIX')
@@ -32,7 +33,8 @@ export class RepositorioReportesSafix implements RepositorioReportes {
             pGenero: filtrosSaldosCartera.genero ?? ""
         }
         try{
-            const saldosCartera = await this.http.post<SaldosCarteraSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
+            /* const saldosCartera = await this.http.post<SaldosCarteraSafix>(`${this.BASE_URL}${endpoint}`, cuerpo) */
+            let saldosCartera = saldosCarteraSafixMock;
             console.log('saldos obtenidos con filtros', filtrosSaldosCartera, saldosCartera)
             return MapeadorSaldosCarteraSafix.obtenerSaldosCartera(saldosCartera)
         }catch(e){

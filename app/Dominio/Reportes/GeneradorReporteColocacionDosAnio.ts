@@ -32,19 +32,27 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
 
         const promesaColocacionMenor = this.repositorio.obtenerColocacion({
             fechaInicioCorte: periodoMenor.fechaInicio.toFormat(FormatoFechas.FECHA_SAFIX),
-            fechaFinalCorte: periodoMenor.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX)
+            fechaFinalCorte: periodoMenor.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX),
+            empresa: filtros.empresa,
+            producto: filtros.producto
         })
         const promesaColocacionMedio = this.repositorio.obtenerColocacion({
             fechaInicioCorte: periodoMedio.fechaInicio.toFormat(FormatoFechas.FECHA_SAFIX),
-            fechaFinalCorte: periodoMedio.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX)
+            fechaFinalCorte: periodoMedio.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX),
+            empresa: filtros.empresa,
+            producto: filtros.producto
         })
         const promesaColocacionMayor = this.repositorio.obtenerColocacion({
             fechaInicioCorte: periodoMayor.fechaInicio.toFormat(FormatoFechas.FECHA_SAFIX),
-            fechaFinalCorte: periodoMayor.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX)
+            fechaFinalCorte: periodoMayor.fechaFinal.toFormat(FormatoFechas.FECHA_SAFIX),
+            empresa: filtros.empresa,
+            producto: filtros.producto
         })
         const promesaColocacionOriginal = this.repositorio.obtenerColocacion({
             fechaInicioCorte: filtros.fechaInicioCorte,
-            fechaFinalCorte: filtros.fechaFinalCorte
+            fechaFinalCorte: filtros.fechaFinalCorte,
+            empresa: filtros.empresa,
+            producto: filtros.producto
         })
 
         const [colocacionMenor, colocacionMedio, colocacionMayor, colocacion] = await Promise.all([

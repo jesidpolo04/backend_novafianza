@@ -48,20 +48,20 @@ export default class ControladorReportes {
     
     const filtros  = await request.validate({ schema: schemaFiltrosSaldosCartera })
     const cabeceras = [
-                { header: 'Año mes cierre', key: 'fechaCierre', width:15},
-                { header: '0 - 30 días', key: 'rango_0_30Dias', width:15},
-                { header: '31 - 60 días', key: 'rango_31_60Dias', width:15},
-                { header: '61 - 90 días', key: 'rango_61_90Dias', width:15},
-                { header: '91 - 120 días', key: 'rango_91_120Dias', width:15},
-                { header: '121 - 150 días', key: 'rango_121_150Dias', width:15},
-                { header: '151 - 180 días', key: 'rango_151_180Dias', width:15},
-                { header: '181 - 210 días', key: 'rango_181_210Dias', width:15},
-                { header: '211 - 240 días', key: 'rango_211_240Dias', width:15},
-                { header: '241 - 270 días', key: 'rango_241_270Dias', width:15},
-                { header: '271 - 300 días', key: 'rango_271_300Dias', width:15},
-                { header: '301 - 330 días', key: 'rango_301_330Dias', width:15},
-                { header: '331 - 360 días', key: 'rango_331_360Dias', width:15},
-                { header: '361 más días', key: 'rango_361MasDias', width:15},
+                { header: 'Año mes cierre', key: 'fechaCierre', width:25},
+                { header: '0 - 30 días', key: 'rango_0_30Dias', width:25},
+                { header: '31 - 60 días', key: 'rango_31_60Dias', width:25},
+                { header: '61 - 90 días', key: 'rango_61_90Dias', width:25},
+                { header: '91 - 120 días', key: 'rango_91_120Dias', width:25},
+                { header: '121 - 150 días', key: 'rango_121_150Dias', width:25},
+                { header: '151 - 180 días', key: 'rango_151_180Dias', width:25},
+                { header: '181 - 210 días', key: 'rango_181_210Dias', width:25},
+                { header: '211 - 240 días', key: 'rango_211_240Dias', width:25},
+                { header: '241 - 270 días', key: 'rango_241_270Dias', width:25},
+                { header: '271 - 300 días', key: 'rango_271_300Dias', width:25},
+                { header: '301 - 330 días', key: 'rango_301_330Dias', width:25},
+                { header: '331 - 360 días', key: 'rango_331_360Dias', width:25},
+                { header: '361 más días', key: 'rango_361MasDias', width:25},
     ]
     const buffer = await this.servicio.exportSaldosCartera(filtros, cabeceras)
 
@@ -77,17 +77,17 @@ export default class ControladorReportes {
     
     const filtros  = await request.validate({ schema: schemaFiltroOperaciones })
     const cabeceras = [
-                { header: '', key: 'anioColocaion', with: 15},
-            { header: '', key: 'mesColocacion', with: 15},
-            { header: '', key: 'numeroCreditos', with: 15},
-            { header: '', key: 'valorDesembolso', with: 15},
-            { header: '', key: 'valorIngresoFianzaFija', with: 15},
-            { header: '', key: 'ValorIngresoFianzaVariable', with: 15},
-            { header: '', key: 'valorComercializacion', with: 15},
-            { header: '', key: 'valorDisponiblePagosGenerados', with: 15},
-            { header: '', key: 'valorReclamado', with: 15},
-            { header: '', key: 'valorCupo', with: 15},
-            { header: '', key: 'valorPendienteReclamar', with: 15}
+                { header: '', key: 'anioColocaion', with: 25},
+            { header: '', key: 'mesColocacion', with: 25},
+            { header: '', key: 'numeroCreditos', with: 25},
+            { header: '', key: 'valorDesembolso', with: 25},
+            { header: '', key: 'valorIngresoFianzaFija', with: 25},
+            { header: '', key: 'ValorIngresoFianzaVariable', with: 25},
+            { header: '', key: 'valorComercializacion', with: 25},
+            { header: '', key: 'valorDisponiblePagosGenerados', with: 25},
+            { header: '', key: 'valorReclamado', with: 25},
+            { header: '', key: 'valorCupo', with: 25},
+            { header: '', key: 'valorPendienteReclamar', with: 25}
               
     ]
     const buffer = await this.servicio.exportOperacion(filtros, cabeceras)

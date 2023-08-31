@@ -15,48 +15,48 @@ import { GeneradorReporteSaldosCartera } from "App/Dominio/Reportes/GeneradorRep
 import { Producto } from "../Entidades/Reportes/Producto/Producto";
 import { ServicioExportacion } from "./ServicioExportacion";
 
-export class ServicioReportes{
+export class ServicioReportes {
     private servicioExportacion = new ServicioExportacion();
-    constructor(private repositorio: RepositorioReportes){}
+    constructor(private repositorio: RepositorioReportes) { }
 
-    async obtenerReporteColocacion(filtros: FiltrosColocacion): Promise<ReporteColocacion>{
+    async obtenerReporteColocacion(filtros: FiltrosColocacion): Promise<ReporteColocacion> {
         let generadorReporte: GeneradorReporteColocacion
         let reporte: ReporteColocacion
 
         const fechaInicio = DateTime.fromFormat(filtros.fechaInicioCorte, FormatoFechas.FECHA_SAFIX)
         const fechaFinal = DateTime.fromFormat(filtros.fechaFinalCorte, FormatoFechas.FECHA_SAFIX)
         const diferenciaAnios = fechaFinal.year - fechaInicio.year
-        
-        if(diferenciaAnios == 0){
-            generadorReporte = new GeneradorReporteColocacionUnAnio( this.repositorio )
+
+        if (diferenciaAnios == 0) {
+            generadorReporte = new GeneradorReporteColocacionUnAnio(this.repositorio)
             reporte = await generadorReporte.generar(filtros)
-        }else if (diferenciaAnios == 1){
-            generadorReporte = new GeneradorReporteColocacionDosAnios( this.repositorio )
+        } else if (diferenciaAnios == 1) {
+            generadorReporte = new GeneradorReporteColocacionDosAnios(this.repositorio)
             reporte = await generadorReporte.generar(filtros)
-        }else{
+        } else {
             throw new Exception('No se admiten rangos que abarquen más de 2 años.', 400)
         }
         return reporte
     }
-    
-    async obtenerReporteOperaciones(filtros: FiltrosOperaciones): Promise<Operaciones>{
+
+    async obtenerReporteOperaciones(filtros: FiltrosOperaciones): Promise<Operaciones> {
         return this.repositorio.obtenerOperaciones(filtros)
     }
 
-    async obtenerReporteSaldosCartera(filtros: FiltrosSaldosCartera): Promise<any>{
+    async obtenerReporteSaldosCartera(filtros: FiltrosSaldosCartera): Promise<any> {
         const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros)
         saldosCartera.flowRate[0].rango_0_30
         return GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
     }
 
-    async obtenerProductos(empresa: string): Promise<Producto[]>{
+    async obtenerProductos(empresa: string): Promise<Producto[]> {
         return this.repositorio.obtenerProductos(empresa)
     }
 
     async exportSaldosCartera(filtros: FiltrosSaldosCartera, cabeceras) {
         const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros);
         const datos = GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
-console.log(datos);
+        console.log(datos);
 
         const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
         return buffer;

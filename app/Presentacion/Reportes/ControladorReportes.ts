@@ -45,6 +45,8 @@ export default class ControladorReportes {
   }
 
   async exportSaldosCartera({ request, response }: HttpContextContract){
+    console.log("Entro a exportar");
+    
     const filtros  = await request.validate({ schema: schemaFiltrosSaldosCartera })
     const cabeceras = [
                 { header: 'Año mes cierre', key: 'fechaCierre', width:30},
@@ -64,10 +66,13 @@ export default class ControladorReportes {
     ]
     const buffer = await this.servicio.exportSaldosCartera(filtros, cabeceras)
 
+    console.log(" se genero el buffer");
+    
+
     response.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     response.header('Content-Disposition', 'attachment; filename=datos.xlsx');
 
     response.send(buffer);
   }
-  
+
 }

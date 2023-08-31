@@ -13,8 +13,10 @@ import { FiltrosSaldosCartera } from "App/Dominio/Dto/Reportes/FiltrosSaldosCart
 import { ReporteSaldosCartera } from "App/Dominio/Dto/Reportes/ReporteSaldosCartera";
 import { GeneradorReporteSaldosCartera } from "App/Dominio/Reportes/GeneradorReporteSaldosCartera";
 import { Producto } from "../Entidades/Reportes/Producto/Producto";
+import { ServicioExportacion } from "./ServicioExportacion";
 
 export class ServicioReportes{
+    private servicioExportacion = new ServicioExportacion();
     constructor(private repositorio: RepositorioReportes){}
 
     async obtenerReporteColocacion(filtros: FiltrosColocacion): Promise<ReporteColocacion>{
@@ -49,5 +51,16 @@ export class ServicioReportes{
 
     async obtenerProductos(empresa: string): Promise<Producto[]>{
         return this.repositorio.obtenerProductos(empresa)
+    }
+
+    async exportSaldosCartera(filtros: FiltrosSaldosCartera, cabeceras) {
+        const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros);
+        const datos = GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
+console.log(datos);
+
+        const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
+        return buffer;
+
+
     }
 }

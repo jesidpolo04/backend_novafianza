@@ -75,7 +75,7 @@ export default class ControladorReportes {
 
   async exportOperacion({ request, response }: HttpContextContract){
     
-    const filtros  = await request.validate({ schema: schemaFiltroColocacion })
+    const filtros  = await request.validate({ schema: schemaFiltroOperaciones })
     const cabeceras = [
                 { header: '', key: 'anioColocaion', with: 15},
             { header: '', key: 'mesColocacion', with: 15},
@@ -95,7 +95,7 @@ export default class ControladorReportes {
     
 
     response.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    response.header('Content-Disposition', 'attachment; filename=Colocacion .xlsx');
+    response.header('Content-Disposition', 'attachment; filename=Operacion.xlsx');
 
     response.send(buffer);
   }

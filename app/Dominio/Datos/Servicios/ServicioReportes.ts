@@ -70,7 +70,8 @@ export class ServicioReportes {
     } */
 
     async exportOperacion(filtros: FiltrosOperaciones, cabeceras) {
-        const operaciones = await this.obtenerReporteOperaciones(filtros);
+        const operaciones = await this.repositorio.obtenerOperaciones(filtros)
+                console.log("operaciones", JSON.stringify(operaciones))
         const buffer = await this.servicioExportacion.exportToXLSX(operaciones.resumenOperaciones, cabeceras)
         return buffer;
     }

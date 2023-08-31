@@ -5,4 +5,5 @@ Route.group(() => {
     Route.post('/colocacion', `${accion_path}.colocacion`)
     Route.post('/operaciones', `${accion_path}.operaciones`)
     Route.post('/saldosCartera', `${accion_path}.saldosCartera`)
+    Route.get('/productos', `${accion_path}.productos`)
 }).prefix('api/v1/reportes')

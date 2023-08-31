@@ -32,7 +32,7 @@ export default class ControladorReportes {
   }
 
   async productos({ request, response }: HttpContextContract){
-    const empresa = request.body["empresa"]
+    const empresa = request.body().empresa
     if(!empresa){
       response.status(400).send({
         mensaje: "La empresa es requerida para consultar los productos.",

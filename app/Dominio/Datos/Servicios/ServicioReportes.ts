@@ -56,8 +56,7 @@ export class ServicioReportes {
     async exportSaldosCartera(filtros: FiltrosSaldosCartera, cabeceras) {
         const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros);
         const datos = GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
-        console.log(datos);
-
+     
         const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
         return buffer;
 

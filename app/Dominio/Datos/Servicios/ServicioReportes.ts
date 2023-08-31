@@ -59,7 +59,19 @@ export class ServicioReportes {
      
         const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
         return buffer;
+    }
 
+/*     async exportColocacion(filtros: FiltrosColocacion, cabeceras) {
+        const colocacion = await this.repositorio.obtenerColocacion(filtros);
+        const datos = GeneradorReporteColocacion.generarReporte(saldosCartera)
+     
+        const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
+        return buffer;
+    } */
 
+    async exportOperacion(filtros: FiltrosOperaciones, cabeceras) {
+        const operaciones = await this.obtenerReporteOperaciones(filtros);
+        const buffer = await this.servicioExportacion.exportToXLSX(operaciones.resumenOperaciones, cabeceras)
+        return buffer;
     }
 }

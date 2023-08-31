@@ -40,7 +40,7 @@ export default class ControladorReportes {
       })
       return;
     }
-    const productos = this.servicio.obtenerProductos(empresa)
+    const productos = await this.servicio.obtenerProductos(empresa)
     response.status(200).send(productos)
   }
 

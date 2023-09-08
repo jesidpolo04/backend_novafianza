@@ -77,17 +77,17 @@ export default class ControladorReportes {
     
     const filtros  = await request.validate({ schema: schemaFiltroOperaciones })
     const cabeceras = [
-                { header: '', key: 'anioColocaion', with: 25},
-            { header: '', key: 'mesColocacion', with: 25},
-            { header: '', key: 'numeroCreditos', with: 25},
-            { header: '', key: 'valorDesembolso', with: 25},
-            { header: '', key: 'valorIngresoFianzaFija', with: 25},
-            { header: '', key: 'ValorIngresoFianzaVariable', with: 25},
-            { header: '', key: 'valorComercializacion', with: 25},
-            { header: '', key: 'valorDisponiblePagosGenerados', with: 25},
-            { header: '', key: 'valorReclamado', with: 25},
-            { header: '', key: 'valorCupo', with: 25},
-            { header: '', key: 'valorPendienteReclamar', with: 25}
+                { header: 'Año Colocación', key: 'anioColocaion', with: 25},
+            { header: 'Mes Colocación', key: 'mesColocacion', with: 25},
+            { header: 'No. Créditos reportados', key: 'numeroCreditos', with: 25},
+            { header: 'Valor Desembolsos', key: 'valorDesembolso', with: 25},
+            { header: 'Ingreso por fianza fija', key: 'valorIngresoFianzaFija', with: 25},
+            { header: 'Ingreso por fianza variable', key: 'ValorIngresoFianzaVariable', with: 25},
+            { header: 'Pagado comercialización', key: 'valorComercializacion', with: 25},
+            { header: 'Disponible por cobertura', key: 'valorDisponiblePagosGenerados', with: 25},
+            { header: 'Valor reclamo', key: 'valorReclamado', with: 25},
+            { header: 'Cupo', key: 'valorCupo', with: 25},
+            { header: 'Pendiente Reclamo', key: 'valorPendienteReclamar', with: 25}
               
     ]
     const buffer = await this.servicio.exportOperacion(filtros, cabeceras)
@@ -96,6 +96,18 @@ export default class ControladorReportes {
 
     response.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     response.header('Content-Disposition', 'attachment; filename=Operacion.xlsx');
+
+    response.send(buffer);
+  }
+
+  async exportColocacion({ request, response }: HttpContextContract){
+    
+    const filtros = await request.validate({ schema: schemaFiltroColocacion })
+   
+    const buffer = await this.servicio.exportColocacion(filtros)
+
+    response.header('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    response.header('Content-Disposition', 'attachment; filename=Disponible por cobertura inicial.xlsx');
 
     response.send(buffer);
   }

@@ -56,22 +56,35 @@ export class ServicioReportes {
     async exportSaldosCartera(filtros: FiltrosSaldosCartera, cabeceras) {
         const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros);
         const datos = GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
-     
+
         const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
         return buffer;
     }
 
-/*     async exportColocacion(filtros: FiltrosColocacion, cabeceras) {
-        const colocacion = await this.repositorio.obtenerColocacion(filtros);
-        const datos = GeneradorReporteColocacion.generarReporte(saldosCartera)
-     
-        const buffer = await this.servicioExportacion.exportToXLSX(datos.rodamientoCartera, cabeceras)
-        return buffer;
-    } */
 
     async exportOperacion(filtros: FiltrosOperaciones, cabeceras) {
         const operaciones = await this.repositorio.obtenerOperaciones(filtros)
         const buffer = await this.servicioExportacion.exportToXLSX(operaciones.resumenOperaciones, cabeceras)
+        return buffer;
+    }
+    async exportColocacion(filtros: FiltrosColocacion) {
+        const colocacion = await this.obtenerReporteColocacion(filtros);
+        const coberturas = colocacion.coberturasDisponibles;
+        const cabeceras = [
+            { header: 'Fecha', key: 'fechaMes', with:30 },
+            { header: 'Vlr Coloc.', key: 'valorColocacion', with:30 },
+            { header: 'Núm Créditos', key: 'numeroCreditos', with:30 },
+            { header: 'Ticket', key: 'ticketPromedio', with:30 },
+            { header: 'Plazo', key: 'plazoPromedio', with:30 },
+            { header: 'Saldo', key: 'saldo', with:30 },
+            { header: 'Disponible Fianza fija', key: 'valorDisponibleFianzaFija', with:30 },
+            { header: 'Disponible Fianza variable', key: 'valorDisponibleFianzaVariable', with:30 },
+            { header: 'Total disponible', key: 'valorTotalDisponible', with:30 },
+            { header: 'Cobertura inicial', key: 'valorTotalDisponibleColocacion', with:30 }
+
+        ]
+
+        const buffer = await this.servicioExportacion.exportToXLSX(coberturas, cabeceras)
         return buffer;
     }
 }

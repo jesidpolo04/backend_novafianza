@@ -98,23 +98,27 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             grupoDatos: [],
             tipo: 'LINEA'
         })
-
-        reporte.colocacion.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorColocacion), true ),
-            color: '#00A4EA', //AZUL
-            etiqueta: coloMayor.fianzasNetas[0].anioLote
-        })
-        console.log('COLOCACION MEDIA', coloMedio.fianzasNetas)
-        reporte.colocacion.agregarGrupoDatos({
-            datos: coloMedio.fianzasNetas.map(fn => fn.valorColocacion),
-            color: '#FFAA00', //AMARILLO
-            etiqueta: coloMedio.fianzasNetas[0].anioLote
-        })
-        reporte.colocacion.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorColocacion), false ),
-            color: '#32BEC1', //VERDE FRIO
-            etiqueta: coloMenor.fianzasNetas[0].anioLote
-        })
+        if(coloMayor.fianzasNetas.length > 0){
+            reporte.colocacion.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorColocacion), true ),
+                color: '#00A4EA', //AZUL
+                etiqueta: coloMayor.fianzasNetas[0].anioLote
+            })
+        }
+        if(coloMedio.fianzasNetas.length > 0){
+            reporte.colocacion.agregarGrupoDatos({
+                datos: coloMedio.fianzasNetas.map(fn => fn.valorColocacion),
+                color: '#FFAA00', //AMARILLO
+                etiqueta: coloMedio.fianzasNetas[0].anioLote
+            })
+        }
+        if(coloMenor.fianzasNetas.length > 0){
+            reporte.colocacion.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorColocacion), false ),
+                color: '#32BEC1', //VERDE FRIO
+                etiqueta: coloMenor.fianzasNetas[0].anioLote
+            })
+        }
     }
 
     private agregarFianzasNetas(reporte: ReporteColocacion, coloMenor: Colocacion, coloMedio: Colocacion, coloMayor: Colocacion) {

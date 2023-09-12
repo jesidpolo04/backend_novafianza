@@ -29,7 +29,7 @@ export class ServicioReportes {
         const diferenciaAnios = fechaFinal.year - fechaInicio.year
 
         if (diferenciaAnios == 0) {
-            const diferenciaMeses = fechaFinal.month - fechaFinal.month
+            const diferenciaMeses = fechaFinal.month - fechaInicio.month
             if(diferenciaMeses > 1){
                 generadorReporte = new GeneradorReporteColocacionUnAnio(this.repositorio)
             }else{

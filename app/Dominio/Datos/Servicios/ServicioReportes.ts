@@ -14,6 +14,7 @@ import { ReporteSaldosCartera } from "App/Dominio/Dto/Reportes/ReporteSaldosCart
 import { GeneradorReporteSaldosCartera } from "App/Dominio/Reportes/GeneradorReporteSaldosCartera";
 import { Producto } from "../Entidades/Reportes/Producto/Producto";
 import { ServicioExportacion } from "./ServicioExportacion";
+import { GeneradorReporteColocacionUnMes } from "App/Dominio/Reportes/GeneradorReporteColocacionUnMes";
 
 export class ServicioReportes {
     private servicioExportacion = new ServicioExportacion();
@@ -28,7 +29,12 @@ export class ServicioReportes {
         const diferenciaAnios = fechaFinal.year - fechaInicio.year
 
         if (diferenciaAnios == 0) {
-            generadorReporte = new GeneradorReporteColocacionUnAnio(this.repositorio)
+            const diferenciaMeses = fechaFinal.month - fechaFinal.month
+            if(diferenciaMeses > 1){
+                generadorReporte = new GeneradorReporteColocacionUnAnio(this.repositorio)
+            }else{
+                generadorReporte = new GeneradorReporteColocacionUnMes(this.repositorio)
+            }
             reporte = await generadorReporte.generar(filtros)
         } else if (diferenciaAnios == 1) {
             generadorReporte = new GeneradorReporteColocacionDosAnios(this.repositorio)

@@ -104,6 +104,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             color: '#00A4EA', //AZUL
             etiqueta: coloMayor.fianzasNetas[0].anioLote
         })
+        console.log('COLOCACION MEDIA', coloMedio.fianzasNetas)
         reporte.colocacion.agregarGrupoDatos({
             datos: coloMedio.fianzasNetas.map(fn => fn.valorColocacion),
             color: '#FFAA00', //AMARILLO

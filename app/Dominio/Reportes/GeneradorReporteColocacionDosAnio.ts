@@ -19,11 +19,11 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
 
         const periodoMenor = {
             fechaInicio: fechaInicioOriginal.minus({ years: 1 }),
-            fechaFinal: fechaInicioOriginal.minus({ year: 1 }).set({ month: 12, day: 31 })
+            fechaFinal: fechaInicioOriginal.set({ month: 1, day: 1 })
         }
         const periodoMedio = {
             fechaInicio: fechaInicioOriginal.set({ month: 1, day: 1 }),
-            fechaFinal: fechaInicioOriginal.set({ month: 12, day: 31 })
+            fechaFinal: fechaInicioOriginal.plus({years: 1}).set({ month: 1, day: 1 })
         }
         const periodoMayor = {
             fechaInicio: fechaFinalOriginal.set({ month: 1, day: 1 }),

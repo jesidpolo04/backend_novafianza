@@ -8,6 +8,7 @@ import { CoberturaDisponible } from "App/Dominio/Datos/Entidades/Reportes/Coloca
 export class MapeadorColocacionSafix {
     static obtenerColocacion(colocacionSafix: ColocacionSafix): Colocacion {
         const colocacion = new Colocacion({
+            valorColocacion: colocacionSafix.vlrColocacion,
             coberturaSobreColocacion: colocacionSafix.CoberSobreColocacion,
             creditoMaximo: colocacionSafix.CreditoMax,
             creditosPorCliente: colocacionSafix.CreditosPorCliente,

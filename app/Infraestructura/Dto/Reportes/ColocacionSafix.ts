@@ -9,6 +9,7 @@ export interface ColocacionSafix {
     VrColocaVariacionMesAnterior: number;
     VrColocaVariacionAnioAnterior: number;
     VrColocaVariacionRangoAnterior: number;
+    vlrColocacion: number;
     FianzasNetas: FianzasNeta[];
     Genero: Genero[];
     Departamentos: Departamento[];

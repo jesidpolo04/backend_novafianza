@@ -8,6 +8,7 @@ import { FormatoFechas } from "../FormatoFechas";
 import { Grafico, GrupoDato } from "../Dto/Reportes/Grafico";
 import { MESES_SAFIX } from "./MesesSafix";
 import { COLORES_GRAFICOS } from "./ColoresGraficos";
+import { DEPARTAMENTOS } from "./Departamentos";
 
 export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocacion {
 
@@ -104,7 +105,10 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
                 new GrupoDato({
                     datos: colocacion.departamentos.map(dep => dep.cantidad),
                     colores: colocacion.departamentos.map((_, indice) => COLORES_GRAFICOS[indice % COLORES_GRAFICOS.length]),
-                    etiquetas: colocacion.departamentos.map(dep => dep.codigoDepartamento),
+                    etiquetas: colocacion.departamentos.map(dep => {
+                        const departamento = DEPARTAMENTOS.find(departamento => departamento.codigo === dep.codigoDepartamento)
+                        return departamento ? departamento.departamento : dep.codigoDepartamento; 
+                    }),
                 })
             ]
         })

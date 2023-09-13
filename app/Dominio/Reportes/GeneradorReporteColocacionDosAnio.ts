@@ -8,6 +8,7 @@ import { Grafico, GrupoDato } from "../Dto/Reportes/Grafico";
 import { MESES } from "./MesesSafix";
 import { Colocacion } from "../Datos/Entidades/Reportes/Colocacion/Colocacion";
 import { COLORES_GRAFICOS } from "./ColoresGraficos";
+import { DEPARTAMENTOS } from "./Departamentos";
 
 export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColocacion {
 
@@ -83,7 +84,10 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
                 new GrupoDato({
                     datos: colocacion.departamentos.map( dep => dep.cantidad ),
                     colores: colocacion.departamentos.map( (_, indice) => COLORES_GRAFICOS[ indice % COLORES_GRAFICOS.length ] ),
-                    etiquetas: colocacion.departamentos.map( dep => dep.codigoDepartamento ),
+                    etiquetas: colocacion.departamentos.map( dep => {
+                        const departamento = DEPARTAMENTOS.find(departamento => departamento.codigo === dep.codigoDepartamento)
+                        return departamento ? departamento.departamento : dep.codigoDepartamento; 
+                    }),
                 }) 
             ]
         })

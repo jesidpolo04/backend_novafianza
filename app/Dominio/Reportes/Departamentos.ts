@@ -4,7 +4,7 @@ export const DEPARTAMENTOS: { departamento: string, codigo: string }[] = [
         departamento: "Amazonas"
     },
     {
-        codigo: "05",
+        codigo: "5",
         departamento: "Antioquia"
     },
     {
@@ -12,7 +12,7 @@ export const DEPARTAMENTOS: { departamento: string, codigo: string }[] = [
         departamento: "Arauca"
     },
     {
-        codigo: "08",
+        codigo: "8",
         departamento: "Atlántico"
     },
     {

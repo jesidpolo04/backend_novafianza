@@ -50,7 +50,6 @@ export class RepositorioReportesSafix implements RepositorioReportes {
         }
         try{
             const saldosCartera = await this.http.post<SaldosCarteraSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
-            console.log('saldos obtenidos con filtros', filtrosSaldosCartera, saldosCartera)
             return MapeadorSaldosCarteraSafix.obtenerSaldosCartera(saldosCartera)
         }catch(e){
             console.error(e)
@@ -72,7 +71,7 @@ export class RepositorioReportesSafix implements RepositorioReportes {
         }
         try {
             const operaciones = await this.http.post<OperacionesSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
-            console.log('operaciones obtenida rango de fechas', filtrosOperaciones, operaciones)
+            console.log(operaciones)
             return MapeadorOperacionesSafix.obtenerOperaciones(operaciones)
         } catch (e) {
             console.error(e)
@@ -94,7 +93,7 @@ export class RepositorioReportesSafix implements RepositorioReportes {
         }
         try {
             const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
-            console.log('colocacion obtenida rango de fechas', filtrosColocacion, colocacion)
+            console.log('filtros', filtrosColocacion, 'colocacion', colocacion)
             return MapeadorColocacionSafix.obtenerColocacion(colocacion)
         } catch (e) {
             console.error(e)

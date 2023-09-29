@@ -93,8 +93,10 @@ export class RepositorioReportesSafix implements RepositorioReportes {
             pTipoProducto: filtrosColocacion.producto
         }
         try {
+            console.log('Consultando a ', `${this.BASE_URL}${endpoint}`)
+            console.log('Con filtros', cuerpo)
             const colocacion = await this.http.post<ColocacionSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
-            console.log('filtros', filtrosColocacion, 'colocacion', colocacion)
+            console.log('Respuesta', colocacion)
             return MapeadorColocacionSafix.obtenerColocacion(colocacion)
         } catch (e) {
             console.error(e)

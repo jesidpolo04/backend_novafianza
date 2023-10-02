@@ -206,8 +206,9 @@ export class MapeadorSaldosCarteraSafix{
                 vlrPorcentajeCobertura: coberturaDisponibleSafix.VlrPorcentajeCobertura
             }))
         })
-
+        
         saldosCarteraSafix.EvolucionSaldosCartera.forEach( eSaldosCarteraSafix => {
+            console.log(eSaldosCarteraSafix)
             saldosCartera.evolucionSaldosCartera.push(new EvolucionSaldosCartera({
                 indicador: eSaldosCarteraSafix.Indicador,
                 periodo: eSaldosCarteraSafix.Periodo,

@@ -9,6 +9,8 @@ import { MESES } from "./MesesSafix";
 import { Colocacion } from "../Datos/Entidades/Reportes/Colocacion/Colocacion";
 import { COLORES_GRAFICOS } from "./ColoresGraficos";
 import { DEPARTAMENTOS } from "./Departamentos";
+import { FianzaNeta } from "../Datos/Entidades/Reportes/Colocacion/FianzaNeta";
+import { MESES_LOTE_SAFIX } from "./MesesLoteSafix";
 
 export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColocacion {
 
@@ -104,21 +106,21 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         })
         if(coloMayor.fianzasNetas.length > 0){
             reporte.colocacion.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorColocacion), true ),
+                datos: this.generarDatosColocacion(coloMayor.fianzasNetas),
                 color: '#00A4EA', //AZUL
                 etiqueta: coloMayor.fianzasNetas[0].anioLote
             })
         }
         if(coloMedio.fianzasNetas.length > 0){
             reporte.colocacion.agregarGrupoDatos({
-                datos: coloMedio.fianzasNetas.map(fn => fn.valorColocacion),
+                datos: this.generarDatosColocacion(coloMedio.fianzasNetas),
                 color: '#FFAA00', //AMARILLO
                 etiqueta: coloMedio.fianzasNetas[0].anioLote
             })
         }
         if(coloMenor.fianzasNetas.length > 0){
             reporte.colocacion.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorColocacion), false ),
+                datos: this.generarDatosColocacion(coloMenor.fianzasNetas),
                 color: '#32BEC1', //VERDE FRIO
                 etiqueta: coloMenor.fianzasNetas[0].anioLote
             })
@@ -133,7 +135,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         })
         if(coloMayor.fianzasNetas.length > 0){
             reporte.fianzasNetas.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorFianzaNeta), true ),
+                datos: this.generarDatosFianzasNetas(coloMayor.fianzasNetas),
                 color: '#00A4EA',
                 etiqueta: coloMayor.fianzasNetas[0].anioLote
             })
@@ -141,7 +143,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
 
         if(coloMedio.fianzasNetas.length > 0){
             reporte.fianzasNetas.agregarGrupoDatos({
-                datos: coloMedio.fianzasNetas.map(fn => fn.valorFianzaNeta),
+                datos: this.generarDatosFianzasNetas(coloMedio.fianzasNetas),
                 color: '#FFAA00',
                 etiqueta: coloMedio.fianzasNetas[0].anioLote
             })
@@ -149,7 +151,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         
         if(coloMenor.fianzasNetas.length > 0){
             reporte.fianzasNetas.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorFianzaNeta), false ),
+                datos: this.generarDatosFianzasNetas(coloMenor.fianzasNetas),
                 color: '#32BEC1',
                 etiqueta: coloMenor.fianzasNetas[0].anioLote
             })
@@ -198,5 +200,19 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         }else{
             return [ ...nulls, ...datos ]
         }
+    }
+
+    private generarDatosColocacion(fianzasNetas: FianzaNeta[]): (number | null)[]{
+        return MESES_LOTE_SAFIX.map( mesLote => {
+            const fianzaNeta = fianzasNetas.find( fianzaNeta => fianzaNeta.mesLote === mesLote )
+            return fianzaNeta ? fianzaNeta.valorColocacion : null;
+        })
+    }
+
+    private generarDatosFianzasNetas(fianzasNetas: FianzaNeta[]): (number | null)[]{
+        return MESES_LOTE_SAFIX.map( mesLote => {
+            const fianzaNeta = fianzasNetas.find( fianzaNeta => fianzaNeta.mesLote === mesLote )
+            return fianzaNeta ? fianzaNeta.valorFianzaNeta : null;
+        })
     }
 }

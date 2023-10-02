@@ -162,21 +162,29 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             grupoDatos: [],
             tipo: 'BARRAS'
         })
-        reporte.creditosDesembolsados.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMayor.coberturasDisponibles.map(cob => cob.numeroCreditos), true ),
-            color: COLORES_GRAFICOS[0],
-            etiqueta: coloMayor.fianzasNetas[0].anioLote
-        })
-        reporte.creditosDesembolsados.agregarGrupoDatos({
-            datos: coloMedio.coberturasDisponibles.map(cob => cob.numeroCreditos),
-            color: COLORES_GRAFICOS[1],
-            etiqueta: coloMedio.fianzasNetas[0].anioLote
-        })
-        reporte.creditosDesembolsados.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMenor.coberturasDisponibles.map(cob => cob.numeroCreditos), false ),
-            color: COLORES_GRAFICOS[2],
-            etiqueta: coloMenor.fianzasNetas[0].anioLote
-        })
+        if(coloMayor.coberturasDisponibles.length > 0 && coloMayor.fianzasNetas.length > 0){
+            reporte.creditosDesembolsados.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMayor.coberturasDisponibles.map(cob => cob.numeroCreditos), true ),
+                color: COLORES_GRAFICOS[0],
+                etiqueta: coloMayor.fianzasNetas[0].anioLote
+            })
+        }
+
+        if(coloMedio.coberturasDisponibles.length > 0 && coloMedio.fianzasNetas.length > 0){
+            reporte.creditosDesembolsados.agregarGrupoDatos({
+                datos: coloMedio.coberturasDisponibles.map(cob => cob.numeroCreditos),
+                color: COLORES_GRAFICOS[1],
+                etiqueta: coloMedio.fianzasNetas[0].anioLote
+            })
+        }
+        
+        if(coloMenor.coberturasDisponibles.length > 0 && coloMenor.fianzasNetas.length > 0){
+            reporte.creditosDesembolsados.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMenor.coberturasDisponibles.map(cob => cob.numeroCreditos), false ),
+                color: COLORES_GRAFICOS[2],
+                etiqueta: coloMenor.fianzasNetas[0].anioLote
+            })
+        }
     }
 
     private rellenarDatosConNull(datos: number[], alFinal: boolean = true): (number | null)[] {

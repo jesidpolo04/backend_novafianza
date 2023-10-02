@@ -39,10 +39,20 @@ export class Colocacion{
 
     ordenarFianzasNetas(){
         this.fianzasNetas.sort( (a, b) => {
-            const fechaA = DateTime.fromFormat(`${a.anioLote}-${a.mesLote}`, 'yyyy-MM')
-            const fechaB = DateTime.fromFormat(`${b.anioLote}-${b.mesLote}`, 'yyyy-MM')
-            if(fechaA > fechaB) return 1;
-            if(fechaA < fechaB) return -1;
+            if(+a.anioLote > +b.anioLote){
+                return 1;
+            }
+            if(+a.anioLote < +b.anioLote){
+                return -1;
+            }
+            if(+a.anioLote === +b.anioLote){
+                if(+a.mesLote > +b.mesLote){
+                    return 1;
+                }
+                if(+a.mesLote < +b.mesLote){
+                    return -1;
+                }
+            }
             return 0; 
         })
     }

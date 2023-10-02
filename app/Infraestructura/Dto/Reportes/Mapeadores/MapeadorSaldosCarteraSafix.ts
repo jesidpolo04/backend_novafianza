@@ -196,7 +196,7 @@ export class MapeadorSaldosCarteraSafix{
                 vlrSaldoMoraMas120: coberturaSafix.VlrSaldoMoraMas120
             }))
         })
-
+        console.log('coberturas disponibles', saldosCarteraSafix.CoberturasDisponibles)
         saldosCarteraSafix.CoberturasDisponibles.forEach(coberturaDisponibleSafix =>{
             saldosCartera.coberturasDisponibles.push(new CoberturaDisponible({
                 indicador: coberturaDisponibleSafix.Indicador,
@@ -208,7 +208,6 @@ export class MapeadorSaldosCarteraSafix{
         })
         
         saldosCarteraSafix.EvolucionSaldosCartera.forEach( eSaldosCarteraSafix => {
-            console.log(eSaldosCarteraSafix)
             saldosCartera.evolucionSaldosCartera.push(new EvolucionSaldosCartera({
                 indicador: eSaldosCarteraSafix.Indicador,
                 periodo: eSaldosCarteraSafix.Periodo,

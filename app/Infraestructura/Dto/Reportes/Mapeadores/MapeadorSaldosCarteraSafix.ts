@@ -217,7 +217,8 @@ export class MapeadorSaldosCarteraSafix{
                 vlrPorcentajeCobertura: eSaldosCarteraSafix.VlrPorcentajeCobertura
             }))
         })
-
+        saldosCartera.ordenarEvolucionSaldosCartera()
+        
         saldosCarteraSafix.Amortizacion.forEach( amortizacionSafix => {
             saldosCartera.amortizacion.push(new Amortizacion({
                 fechaColocacion: amortizacionSafix.FechaColocacion,

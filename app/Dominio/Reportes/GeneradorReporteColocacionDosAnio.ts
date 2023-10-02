@@ -131,21 +131,29 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
             grupoDatos: [],
             tipo: 'LINEA'
         })
-        reporte.fianzasNetas.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorFianzaNeta), true ),
-            color: '#00A4EA',
-            etiqueta: coloMayor.fianzasNetas[0].anioLote
-        })
-        reporte.fianzasNetas.agregarGrupoDatos({
-            datos: coloMedio.fianzasNetas.map(fn => fn.valorFianzaNeta),
-            color: '#FFAA00',
-            etiqueta: coloMedio.fianzasNetas[0].anioLote
-        })
-        reporte.fianzasNetas.agregarGrupoDatos({
-            datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorFianzaNeta), false ),
-            color: '#32BEC1',
-            etiqueta: coloMenor.fianzasNetas[0].anioLote
-        })
+        if(coloMayor.fianzasNetas.length > 0){
+            reporte.fianzasNetas.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMayor.fianzasNetas.map(fn => fn.valorFianzaNeta), true ),
+                color: '#00A4EA',
+                etiqueta: coloMayor.fianzasNetas[0].anioLote
+            })
+        }
+
+        if(coloMedio.fianzasNetas.length > 0){
+            reporte.fianzasNetas.agregarGrupoDatos({
+                datos: coloMedio.fianzasNetas.map(fn => fn.valorFianzaNeta),
+                color: '#FFAA00',
+                etiqueta: coloMedio.fianzasNetas[0].anioLote
+            })
+        }
+        
+        if(coloMenor.fianzasNetas.length > 0){
+            reporte.fianzasNetas.agregarGrupoDatos({
+                datos: this.rellenarDatosConNull( coloMenor.fianzasNetas.map(fn => fn.valorFianzaNeta), false ),
+                color: '#32BEC1',
+                etiqueta: coloMenor.fianzasNetas[0].anioLote
+            })
+        }
     }
 
     private agregarCreditosDesembolsados(reporte: ReporteColocacion, coloMenor: Colocacion, coloMedio: Colocacion, coloMayor: Colocacion) {

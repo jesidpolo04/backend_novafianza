@@ -360,6 +360,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
           nombreTipoArchivo: sql.archivo.nombre,
           estadoValidacion: sql.estadoCargaProceso.nombre,
           estadoValidacionEstructura: sql.estadoCargaEstructura.nombre,
+          observacion: sql.descripcionProcedimeinto,
           tipoCarga: (sql.automatico) ? "Automático" : "Prueba"
         })
 
@@ -445,7 +446,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
   validarRespuesta = async (respuestaAxio: any, idCarga: string, data: any, tipoDeProceso: string, datosAdicionales: any, registros: number, fichero, automatico: boolean) => {
     const idRetorno = respuestaAxio.RespuestaMetodo.IdRetorno;
     const archivoLog = respuestaAxio.ArchivoLog;
-
+    const codigoProcedimiento = respuestaAxio.CodigoProcedimiento;
 //console.log({automatico1: automatico});
 
     if (idRetorno === 0) {

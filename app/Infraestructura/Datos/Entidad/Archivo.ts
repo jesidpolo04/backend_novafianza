@@ -33,8 +33,8 @@ export default class TblArchivos extends BaseModel {
     this.id = archivo.id
     this.nombre = archivo.nombre
     this.tipo = archivo.tipo
-    this.prefijo = archivo.prefijo
-    this.prefijoArchivo = archivo.prefijoArchivo
+  /*   this.prefijo = archivo.prefijo
+    this.prefijoArchivo = archivo.prefijoArchivo */
     this.prefijoParametrizacion = archivo.prefijoParametrizacion
     this.estado = archivo.estado
     this.formatoId = archivo.formatoId
@@ -44,8 +44,8 @@ export default class TblArchivos extends BaseModel {
   public establecerArchivoConId (archivo: Archivo) {
     this.nombre = archivo.nombre
     this.tipo = archivo.tipo
-    this.prefijo = archivo.prefijo
-    this.prefijoArchivo = archivo.prefijoArchivo
+  /*   this.prefijo = archivo.prefijo
+    this.prefijoArchivo = archivo.prefijoArchivo */
     this.prefijoParametrizacion = archivo.prefijoParametrizacion
     this.estado = archivo.estado
     this.formatoId = archivo.formatoId

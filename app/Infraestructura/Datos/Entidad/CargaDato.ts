@@ -25,6 +25,8 @@ export default class TblCargaDatos extends BaseModel {
   @column({ columnName: 'car_registros_fallidos_safix' }) public registrosFallidosSafix: number
   @column({ columnName: 'car_registros_aprobados_safix' }) public registrosAprobadosSafix: number
   @column({ columnName: 'car_automatico' }) public automatico: boolean
+  @column({ columnName: 'car_codigo_procedimiento' }) public codigoProcedimiento?: number
+  @column({ columnName: 'car_descripcion_procedimiento' }) public descripcionProcedimeinto?: string
 
   @column.dateTime({ autoCreate: true, columnName: 'car_creacion' }) public createdAt: DateTime
 
@@ -47,6 +49,8 @@ export default class TblCargaDatos extends BaseModel {
     this.registrosFallidosSafix = cargaArchivo.registrosFallidosSafix ?? 0
     this.registrosAprobadosSafix = cargaArchivo.registrosAprobadosSafix ?? 0
     this.automatico = cargaArchivo.automatico
+    this.codigoProcedimiento = cargaArchivo.codigoProcedimiento
+    this.descripcionProcedimeinto = cargaArchivo.descripcionProcedimeinto
   }
 
   public establecerCargaArcivoConId(cargaArchivo: CargaArchivo) {
@@ -65,6 +69,8 @@ export default class TblCargaDatos extends BaseModel {
     this.registrosFallidosSafix = cargaArchivo.registrosFallidosSafix ?? 0
     this.registrosAprobadosSafix = cargaArchivo.registrosAprobadosSafix ?? 0
     this.automatico = cargaArchivo.automatico
+    this.codigoProcedimiento = cargaArchivo.codigoProcedimiento
+    this.descripcionProcedimeinto = cargaArchivo.descripcionProcedimeinto
   }
 
   public obtenerCargaArcivo(): CargaArchivo {
@@ -84,6 +90,8 @@ export default class TblCargaDatos extends BaseModel {
     cargaArchivo.registrosFallidosSafix = this.registrosFallidosSafix
     cargaArchivo.registrosAprobadosSafix = this.registrosAprobadosSafix
     cargaArchivo.automatico = this.automatico
+    cargaArchivo.codigoProcedimiento = this.codigoProcedimiento
+    cargaArchivo.descripcionProcedimeinto = this.descripcionProcedimeinto
     return cargaArchivo
   }
 
@@ -96,12 +104,15 @@ export default class TblCargaDatos extends BaseModel {
     }
    }
 
-  public actualizarEstadoCargaService(estado: number, encontrados?:number,fallidos?:number) {
+  public actualizarEstadoCargaService(estado: number, encontrados?:number,fallidos?:number, codigoProcedimiento?:number) {
     this.estadoProceso = estado
     if(encontrados){
       this.registrosEncontrados= encontrados?? 0
       this.registrosFallidosSafix = fallidos?? 0  
       this.registrosAprobadosSafix = this.registrosEncontrados - this.registrosFallidos
+      }
+      if(codigoProcedimiento){
+        this.codigoProcedimiento = codigoProcedimiento
       }
   }
 

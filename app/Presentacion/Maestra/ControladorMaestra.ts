@@ -40,4 +40,10 @@ export default class ControladorMaestra {
       response.status(200).send(e)
     }
   }
+
+  public async tipoArchivo () {
+    const tipoArchivo = await this.service.tiposArchivo()
+    return tipoArchivo
+  }
+
 }

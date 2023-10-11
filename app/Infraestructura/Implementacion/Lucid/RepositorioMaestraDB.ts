@@ -6,6 +6,8 @@ import { RepositorioMaestra } from 'App/Dominio/Repositorios/RepositorioMaestra'
 import { MapeadorPaginacionDB } from './MapeadorPaginacionDB';
 import TblMaestras from '../../Datos/Entidad/Maestra';
 import { Maestra } from 'App/Dominio/Datos/Entidades/Maestra';
+import { TipoArchivo } from 'App/Dominio/Datos/Entidades/TipoArchivo';
+import TblTipoArchivos from 'App/Infraestructura/Datos/Entidad/TipoArchivo';
 
 export class RepositorioMaestraDB implements RepositorioMaestra {
   async obtenerMaestras (params: any): Promise<{maestras: Maestra[], paginacion: Paginador}> {
@@ -35,5 +37,11 @@ export class RepositorioMaestraDB implements RepositorioMaestra {
     maestraRetorno.establecerMaestraConId(maestra)
     await maestraRetorno.save()
     return maestraRetorno
+  }
+
+  async tiposArchivo (): Promise<TipoArchivo[]> {
+    console.log("Entro");
+    
+    return await TblTipoArchivos.all()
   }
 }

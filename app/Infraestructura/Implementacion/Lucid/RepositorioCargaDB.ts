@@ -24,6 +24,8 @@ import { generarExcelValidaciones } from 'App/Infraestructura/Utils/GenerarExcel
 import { MapeadorFicheroAdonis } from 'App/Presentacion/Mapeadores/MapeadorFicheroAdonis';
 import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser';
 import { Estructura } from '../Servicios/Estructuras';
+import TblUsuariosEmpresas from 'App/Infraestructura/Datos/Entidad/UsuarioEmpresa';
+import TblCorreosOperaciones from 'App/Infraestructura/Datos/Entidad/CorreosOperaciones';
 const fs = require('fs')
 export class RepositorioCargaDB implements RepositorioCarga {
   private servicioUsuario = new ServicioUsuario(new RepositorioUsuarioNovafianzaDB(), new RepositorioUsuarioEmpresaDB())
@@ -31,7 +33,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
   private enviadorEmail2: EnviadorEmail
   async procesarArchivo(archivo: MultipartFileContract, datos: string): Promise<void> {
     const { usuario, idEmpresa, ...datosCarga } = JSON.parse(datos);
-    const automatico = (datosCarga.automatico == "S") ? true : false
+    const automatico = (datosCarga.automatico == "S");
 
     // llamar a la funcion para guardar el estado de la carga
     const idDatosGuardados = await this.guardarCarga(datos, archivo.clientName, automatico);
@@ -70,6 +72,16 @@ export class RepositorioCargaDB implements RepositorioCarga {
       return
     }
     const usuarioDB: any = await this.servicioUsuario.obtenerUsuario(usuario)
+    const administradores = await TblUsuariosEmpresas.query().where({ 'use_empresa_id': usuarioDB.idEmpresa, 'use_rol_id': '003', 'use_estado': true })
+    const correos = new Array();
+
+    if (administradores) {
+      for (const administrador of administradores) {
+        correos.push(administrador.correo);
+      }
+    }
+
+    correos.push(usuarioDB.correo);
 
     if (archivo.extname == 'pdf') {
       const entidadUsuario = await TblEmpresas.query().where('emp_id', usuarioDB.idEmpresa).first()
@@ -129,12 +141,12 @@ export class RepositorioCargaDB implements RepositorioCarga {
         this.guardarErrores(idDatosGuardados, errores, '1')
         return
       }
-      console.log("Estructura en bd");   
+      console.log("Estructura en bd");
 
     } else {
-      console.log("Actualizo la estructura");  
+      console.log("Actualizo la estructura");
       estructuraJson = estructuraArchivo;
-     // console.log(estructuraArchivo);     
+      // console.log(estructuraArchivo);     
     }
 
 
@@ -179,7 +191,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
 
           this.guardarErrores(idDatosGuardados, errores, '1', archivoArreglo.length, errores.length)
 
-          this.enviarCorreo('NOVAFIANZA S.A.S - Archivo con novedades', usuarioDB.correo, 'estructura', `${usuarioDB.nombre} ${usuarioDB.apellido}`,
+          this.enviarCorreo('NOVAFIANZA S.A.S - Archivo con novedades', correos, 'estructura', `${usuarioDB.nombre} ${usuarioDB.apellido}`,
             archivo.clientName, idDatosGuardados, 'Falló', tipoArchivo.nombre, fichero, automatico)
 
         }
@@ -187,9 +199,9 @@ export class RepositorioCargaDB implements RepositorioCarga {
           console.log(" No hay errores de estructura");
 
           this.actualizarEstadoEstructura(idDatosGuardados, (issues.length != 0) ? 4 : 2, archivoArreglo.length)
-          this.actualizarEstadoCarga(idDatosGuardados, 1);
+          this.actualizarEstadoCarga(idDatosGuardados, 1, undefined, undefined);
 
-          this.enviarCorreo('NOVAFIANZA S.A.S - Archivo sin novedades', usuarioDB.correo, 'estructura', `${usuarioDB.nombre} ${usuarioDB.apellido}`,
+          this.enviarCorreo('NOVAFIANZA S.A.S - Archivo sin novedades', correos, 'estructura', `${usuarioDB.nombre} ${usuarioDB.apellido}`,
             archivo.clientName, idDatosGuardados, 'Exitoso', tipoArchivo.nombre, fichero, automatico)
 
 
@@ -229,13 +241,13 @@ export class RepositorioCargaDB implements RepositorioCarga {
               }
             }
             console.log('===============DATOS DE ENVIO==============');
-            
 
-            console.log(`${Env.get('URL_CARGA')}/${tipoDeProceso}/api/ValidarArchivo/ValidarCargarArchivo`); 
+
+            console.log(`${Env.get('URL_CARGA')}/${tipoDeProceso}/api/ValidarArchivo/ValidarCargarArchivo`);
             console.log(" ----- ");
-                       
+
             console.log(data);
-            
+
             console.log('==============RESPUESTA===============');
 
 
@@ -244,20 +256,20 @@ export class RepositorioCargaDB implements RepositorioCarga {
             }
             const respuesta = await axios.post(`${Env.get('URL_CARGA')}/${tipoDeProceso}/api/ValidarArchivo/ValidarCargarArchivo`, data, { headers })
 
-            console.log(respuesta.data??respuesta);
+            console.log(respuesta.data ?? respuesta);
             console.log('=============================');
-            
+
             const datosAdicionales = {
               tipoArchivo: tipoArchivo.nombre,
               usuario: `${usuarioDB.nombre} ${usuarioDB.apellido}`,
               nombreArchivo: archivo.clientName,
-              correo: usuarioDB.correo
+              correo: correos
             }
 
-            const envioAutomatico = (datosCarga.automatico === "S") ? true : false;
+            const envioAutomatico = (datosCarga.automatico === "S");
 
-         //   console.log({envioAutomatico});
-            
+            //   console.log({envioAutomatico});
+
 
             this.validarRespuesta(respuesta.data, idDatosGuardados, data, tipoDeProceso, datosAdicionales, archivoArreglo.length, fichero, envioAutomatico);
 
@@ -332,12 +344,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
       }
 
     }
-    console.log("Guardar errores dato");
-
-
     this.guardarErrores(id, errores, '2', registros, filas.length)
-
-
 
   }
 
@@ -360,6 +367,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
           nombreTipoArchivo: sql.archivo.nombre,
           estadoValidacion: sql.estadoCargaProceso.nombre,
           estadoValidacionEstructura: sql.estadoCargaEstructura.nombre,
+          observacion: sql.descripcionProcedimeinto,
           tipoCarga: (sql.automatico) ? "Automático" : "Prueba"
         })
 
@@ -411,15 +419,17 @@ export class RepositorioCargaDB implements RepositorioCarga {
 
   }
 
-  actualizarEstadoCarga = async (id: string, estado: number, encontrados?: number, fallidos?: number) => {
+  actualizarEstadoCarga = async (id: string, estado: number, encontrados?: number, fallidos?: number, codigoProcedimiento?:number) => {
     let cargaEspecifica = await TblCargaDatos.findOrFail(id)
     if (encontrados) {
       cargaEspecifica.actualizarEstadoCargaService(estado, encontrados, fallidos)
     } else {
-      cargaEspecifica.actualizarEstadoCargaService(estado)
+      cargaEspecifica.actualizarEstadoCargaService(estado, undefined, undefined, codigoProcedimiento)
     }
     await cargaEspecifica.save()
   }
+
+
   actualizarEstadoEstructura = async (id: string, estado: number, encontrados?: number, fallidos?: number) => {
     let cargaEspecifica = await TblCargaDatos.findOrFail(id)
     cargaEspecifica.actualizarEstadoCargaEstructura(estado, encontrados, fallidos)
@@ -445,8 +455,8 @@ export class RepositorioCargaDB implements RepositorioCarga {
   validarRespuesta = async (respuestaAxio: any, idCarga: string, data: any, tipoDeProceso: string, datosAdicionales: any, registros: number, fichero, automatico: boolean) => {
     const idRetorno = respuestaAxio.RespuestaMetodo.IdRetorno;
     const archivoLog = respuestaAxio.ArchivoLog;
+    const codigoProcedimiento = respuestaAxio.CodigoProcedimiento;
 
-//console.log({automatico1: automatico});
 
     if (idRetorno === 0) {
       let asunto = '';
@@ -461,7 +471,8 @@ export class RepositorioCargaDB implements RepositorioCarga {
         }
         //Almacenar archivo localmente
         //await fichero.moveToDisk('./', { name: fichero.clientName });
-        this.actualizarEstadoCarga(idCarga, 2)
+        const estadoCarga = (tipoDeProceso === 'WebApiReclamacionesFia') ? 5 : 2
+        this.actualizarEstadoCarga(idCarga, estadoCarga, undefined, undefined, codigoProcedimiento)
       }
 
 
@@ -481,7 +492,7 @@ export class RepositorioCargaDB implements RepositorioCarga {
     } else {
       this.enviarCorreo('NOVAFIANZA S.A.S - Archivo con novedades', datosAdicionales.correo, 'datos', datosAdicionales.usuario,
         datosAdicionales.nombreArchivo, idCarga, 'Fallo la validación de los datos, intente cargar el archivo nuevamente', datosAdicionales.tipoArchivo, fichero, automatico)
-      return this.actualizarEstadoCarga(idCarga, 3)
+      return this.actualizarEstadoCarga(idCarga, 3, undefined, undefined)
     }
 
   }
@@ -659,12 +670,17 @@ export class RepositorioCargaDB implements RepositorioCarga {
     }
   }
 
-  enviarCorreo = (asunto: string, destinatarios: string, titulo: string, nombre: string,
+  enviarCorreo = async (asunto: string, destinatarios: string[], titulo: string, nombre: string,
     nombreArchivo: string, numeroRadicado: string, resultado: any, tipoArchivo: any, fichero, automatico: boolean) => {
 
-    //  console.log({automatico2: automatico});
-      
     if (automatico) {
+      const correosOperaciones = await TblCorreosOperaciones.query().where('coo_estado', true);
+      if (correosOperaciones) {
+        correosOperaciones.forEach(correoOperacion => {
+          destinatarios.push(correoOperacion.correo);
+        });
+      }
+
       this.enviadorEmail = new EnviadorEmailAdonis()
       this.enviadorEmail.enviarTemplate({
         asunto,

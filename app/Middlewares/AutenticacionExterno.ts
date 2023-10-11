@@ -1,9 +1,9 @@
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { ServicioAutenticacionJWT } from 'App/Dominio/Datos/Servicios/ServicioJWT'
 import JwtInvalidoException from 'App/Exceptions/JwtInvalidoException'
 
-export default class AutenticacionJWT {
-  public async handle (contexto: HttpContextContract, next: () => Promise<void>) {
+export default class AutenticacionExterno {
+  public async handle(contexto: HttpContextContract, next: () => Promise<void>) {
     const cabeceraAutenticacion = contexto.request.header('Authorization')
     if(!cabeceraAutenticacion){
       throw new JwtInvalidoException('Falta el token de autenticación')
@@ -15,7 +15,7 @@ export default class AutenticacionJWT {
       
       const jwt = cabeceraAutenticacion.split(' ')[1]
           const payload = await ServicioAutenticacionJWT.obtenerPayload(jwt)
-          if(!payload.idRol || payload.idRol === '006'){
+          if(payload.idRol && payload.idRol !== '006'){
           return  contexto.response.status(400).send({
               mensaje: `No autorizado`,
               estado: 400,

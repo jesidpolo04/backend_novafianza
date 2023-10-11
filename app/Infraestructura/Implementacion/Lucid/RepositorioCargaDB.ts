@@ -463,8 +463,9 @@ export class RepositorioCargaDB implements RepositorioCarga {
       let mensaje = '';
       if (archivoLog === '') {
         console.log("No tiene archivo log");
-        asunto = 'NOVAFIANZA S.A.S - Archivo sin novedades'
-        mensaje = 'Exitoso'
+        asunto =(tipoDeProceso === 'WebApiReclamacionesFia') ? 'NOVAFIANZA S.A.S - Archivo en proceso de validación' : 'NOVAFIANZA S.A.S - Archivo sin novedades'
+        
+        mensaje = (tipoDeProceso === 'WebApiReclamacionesFia') ? 'En proceso de validación' : 'Exitoso'
 
         if (automatico) {
           this.enviarPdf(data, false, idCarga);

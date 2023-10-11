@@ -11,6 +11,8 @@ import { COLORES_GRAFICOS } from "./ColoresGraficos";
 import { DEPARTAMENTOS } from "./Departamentos";
 import { FianzaNeta } from "../Datos/Entidades/Reportes/Colocacion/FianzaNeta";
 import { MESES_LOTE_SAFIX } from "./MesesLoteSafix";
+import { CoberturasDisponible } from "App/Infraestructura/Dto/Reportes/SaldosCarteraSafix";
+import { CoberturaDisponible } from "../Datos/Entidades/Reportes/Colocacion/CoberturaDisponible";
 
 export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColocacion {
 
@@ -166,7 +168,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         })
         if(coloMayor.coberturasDisponibles.length > 0 && coloMayor.fianzasNetas.length > 0){
             reporte.creditosDesembolsados.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMayor.coberturasDisponibles.map(cob => cob.numeroCreditos), true ),
+                datos: this.generarDatosCoberturasDisponibles(coloMayor.coberturasDisponibles),
                 color: COLORES_GRAFICOS[0],
                 etiqueta: coloMayor.fianzasNetas[0].anioLote
             })
@@ -174,7 +176,7 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
 
         if(coloMedio.coberturasDisponibles.length > 0 && coloMedio.fianzasNetas.length > 0){
             reporte.creditosDesembolsados.agregarGrupoDatos({
-                datos: coloMedio.coberturasDisponibles.map(cob => cob.numeroCreditos),
+                datos: this.generarDatosCoberturasDisponibles(coloMedio.coberturasDisponibles),
                 color: COLORES_GRAFICOS[1],
                 etiqueta: coloMedio.fianzasNetas[0].anioLote
             })
@@ -182,23 +184,10 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         
         if(coloMenor.coberturasDisponibles.length > 0 && coloMenor.fianzasNetas.length > 0){
             reporte.creditosDesembolsados.agregarGrupoDatos({
-                datos: this.rellenarDatosConNull( coloMenor.coberturasDisponibles.map(cob => cob.numeroCreditos), false ),
+                datos: this.generarDatosCoberturasDisponibles(coloMenor.coberturasDisponibles),
                 color: COLORES_GRAFICOS[2],
                 etiqueta: coloMenor.fianzasNetas[0].anioLote
             })
-        }
-    }
-
-    private rellenarDatosConNull(datos: number[], alFinal: boolean = true): (number | null)[] {
-        const mesesFaltantes = 12 - datos.length
-        let nulls: null[] = []
-        for (let i = 0; i < mesesFaltantes; i++) {
-            nulls.push(null)
-        }
-        if (alFinal) {
-            return [ ...datos, ...nulls ]
-        }else{
-            return [ ...nulls, ...datos ]
         }
     }
 
@@ -213,6 +202,17 @@ export class GeneradorReporteColocacionDosAnios implements GeneradorReporteColoc
         return MESES_LOTE_SAFIX.map( mesLote => {
             const fianzaNeta = fianzasNetas.find( fianzaNeta => fianzaNeta.mesLote === mesLote )
             return fianzaNeta ? fianzaNeta.valorFianzaNeta : null;
+        })
+    }
+
+    private generarDatosCoberturasDisponibles(coberturasDisponibles: CoberturaDisponible[]): (number | null)[]{
+        return MESES_LOTE_SAFIX.map( mesLote => {
+            const coberturaDisponible = coberturasDisponibles.find( cob => {
+                const fechaMes = cob.fechaMes.split('-')
+                const mes = fechaMes[1]
+                return mes === mesLote
+            })
+            return coberturaDisponible ? coberturaDisponible.numeroCreditos : null;
         })
     }
 }

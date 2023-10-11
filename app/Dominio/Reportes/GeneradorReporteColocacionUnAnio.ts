@@ -43,7 +43,11 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
         reporte.creditosDesembolsados = new Grafico({
             tipo: 'BARRAS',
             grupoDatos: [],
-            etiquetas: colocacion.coberturasDisponibles.map((fn) => MESES_SAFIX[fn.fechaMes]),
+            etiquetas: colocacion.coberturasDisponibles.map((cob) => {
+                const fechaMes = cob.fechaMes.split('-') //formato 2023-3
+                const mes = fechaMes[1]
+                return MESES_SAFIX[mes]
+            }),
         })
 
         if (colocacion.fianzasNetas.length > 0) {
@@ -57,10 +61,15 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
                 color: COLOR_PRIMER_GRUPO_DATOS,
                 etiqueta: colocacion.fianzasNetas[0].anioLote
             })
+        }
+        
+        if(colocacion.coberturasDisponibles.length > 0){
+            const fechaMes = colocacion.coberturasDisponibles[0].fechaMes.split('-') // Formato 2023-3
+            const anio = fechaMes[0] 
             reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
                 datos: colocacion.coberturasDisponibles.map(cob => cob.numeroCreditos),
                 color: COLOR_PRIMER_GRUPO_DATOS,
-                etiqueta: colocacion.fianzasNetas[0].anioLote
+                etiqueta: anio
             }))
         }
 
@@ -81,10 +90,16 @@ export class GeneradorReporteColocacionUnAnio implements GeneradorReporteColocac
                 color: COLOR_SEGUNDO_GRUPO_DATOS,
                 etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
             })
+            
+        }
+
+        if(colocacionAnterior.coberturasDisponibles.length > 0){
+            const fechaMes = colocacionAnterior.coberturasDisponibles[0].fechaMes.split('-') // Formato 2023-3
+            const anio = fechaMes[0] 
             reporte.creditosDesembolsados.agregarGrupoDatos(new GrupoDato({
                 datos: colocacionAnterior.coberturasDisponibles.map(cob => cob.numeroCreditos),
                 color: COLOR_SEGUNDO_GRUPO_DATOS,
-                etiqueta: colocacionAnterior.fianzasNetas[0].anioLote
+                etiqueta: anio
             }))
         }
 

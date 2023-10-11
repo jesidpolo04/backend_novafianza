@@ -12,6 +12,7 @@ import { EnviadorEmail } from 'App/Dominio/Email/EnviadorEmail';
 import { EmailNotificarCargaArchivo } from 'App/Dominio/Email/Emails/EmailNotificarCargaArchivo';
 import Env from '@ioc:Adonis/Core/Env';
 import TblUsuariosEmpresas from 'App/Infraestructura/Datos/Entidad/UsuarioEmpresa';
+import TblCorreosOperaciones from 'App/Infraestructura/Datos/Entidad/CorreosOperaciones';
 export default class ControladorCarga {
   private servicioUsuario: ServicioUsuario;
   private servicio: ServicioCarga;
@@ -143,11 +144,28 @@ export default class ControladorCarga {
     const fecha = cargado.fechaInicial
     const fechaCargue = `${fecha.year}-${fecha.month}-${fecha.day} ${fecha.hour}:${fecha.minute}:${fecha.second}`
     //Enviar correo
+    const administradores = await TblUsuariosEmpresas.query().where({ 'use_empresa_id': usuario?.idEmpresa, 'use_rol_id': '003', 'use_estado': true })
+    const correos = new Array();
+
+    if (administradores) {
+      for (const administrador of administradores) {
+        correos.push(administrador.correo);
+      }
+    }
+    correos.push(usuario?.correo);
+
+    const correosOperaciones = await TblCorreosOperaciones.query().where('coo_estado', true);
+      if (correosOperaciones) {
+        correosOperaciones.forEach(correoOperacion => {
+          correos.push(correoOperacion.correo);
+        });
+      }
+
     this.enviadorEmail = new EnviadorEmailAdonis()
     this.enviadorEmail.enviarTemplate({
       asunto,
       de: Env.get('SMTP_USERNAME'),
-      destinatarios: usuario?.correo!,
+      destinatarios: correos,
       alias: Env.get('EMAIL_ALIAS')
 
     }, new EmailNotificarCargaArchivo({
@@ -163,7 +181,7 @@ export default class ControladorCarga {
 
 
     return response.status(200).send({
-      mensaje: `Se realizo la actualiación correctamente`
+      mensaje: `Se realizo la actualización correctamente`
     })
   }
 

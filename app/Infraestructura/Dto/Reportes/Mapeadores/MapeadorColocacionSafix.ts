@@ -63,6 +63,7 @@ export class MapeadorColocacionSafix {
         })
 
         colocacion.ordenarFianzasNetas()
+        colocacion.ordernarCoberturasDisponibles()
 
         return colocacion
     }

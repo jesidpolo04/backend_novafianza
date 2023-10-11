@@ -51,7 +51,6 @@ export class ServicioReportes {
 
     async obtenerReporteSaldosCartera(filtros: FiltrosSaldosCartera): Promise<any> {
         const saldosCartera = await this.repositorio.obtenerSaldosCartera(filtros)
-        saldosCartera.flowRate[0].rango_0_30
         return GeneradorReporteSaldosCartera.generarReporte(saldosCartera)
     }
 

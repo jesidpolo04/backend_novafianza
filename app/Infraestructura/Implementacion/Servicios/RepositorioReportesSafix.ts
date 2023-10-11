@@ -48,6 +48,7 @@ export class RepositorioReportesSafix implements RepositorioReportes {
             pTienda: filtrosSaldosCartera.departamento ?? "",
             pGenero: filtrosSaldosCartera.genero ?? ""
         }
+        console.log('consultando saldos de cartera con filtros', cuerpo)
         try{
             const saldosCartera = await this.http.post<SaldosCarteraSafix>(`${this.BASE_URL}${endpoint}`, cuerpo)
             return MapeadorSaldosCarteraSafix.obtenerSaldosCartera(saldosCartera)

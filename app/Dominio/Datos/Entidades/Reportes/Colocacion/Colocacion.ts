@@ -56,4 +56,31 @@ export class Colocacion{
             return 0; 
         })
     }
+
+    ordernarCoberturasDisponibles(){
+        this.coberturasDisponibles.sort( (a, b) => {
+            const fechaMesA = a.fechaMes.split('-')
+            const fechaMesB = b.fechaMes.split('-')
+            const anioA = fechaMesA[0]
+            const anioB = fechaMesB[0]
+            const mesA = fechaMesA[1]
+            const mesB = fechaMesB[1]
+
+            if(+anioA > +anioB){
+                return 1;
+            }
+            if(+anioA < +anioB){
+                return -1;
+            }
+            if(+anioA === +anioB){
+                if(+mesA > +mesB){
+                    return 1;
+                }
+                if(+mesA < +mesB){
+                    return -1;
+                }
+            }
+            return 0; 
+        })
+    }
 }

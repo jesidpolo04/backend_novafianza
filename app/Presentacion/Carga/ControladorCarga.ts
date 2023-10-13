@@ -120,7 +120,7 @@ export default class ControladorCarga {
         mensaje: `Codigo de estado incorrecto (1 : Aprobado, 0 : Rechazado)`
       })
     }
-    const cargado = await TblCargaDatos.findBy('car_codigo_procedimiento', CodigoProcedimiento);
+    const cargado = await TblCargaDatos.query().where({'car_codigo_procedimiento': CodigoProcedimiento, 'car_estado_proceso_id':5}).first();
     if (!cargado) {
       return response.status(400).send({
         mensaje: `No existe un registro con este codigo`

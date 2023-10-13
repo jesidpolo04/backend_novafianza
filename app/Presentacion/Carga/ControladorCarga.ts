@@ -121,8 +121,7 @@ export default class ControladorCarga {
       })
     }
     const cargado = await TblCargaDatos.query().where({'car_codigo_procedimiento': CodigoProcedimiento, 'car_estado_proceso_id':5}).first();
-    console.log(cargado);
-    
+   
     if (!cargado) {
       return response.status(400).send({
         mensaje: `No existe un registro con este codigo`

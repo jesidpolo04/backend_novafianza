@@ -58,5 +58,19 @@ export default class ControladorCorreosOperaciones {
 
   }
 
+  public async eliminar({ params, response }: HttpContextContract) {
+    const { id } = params
+
+    try {
+
+      const correoBd = await TblCorreosOperaciones.findOrFail(id)
+      await correoBd.delete()
+      return response.status(200).send("Correo eliminado correctamente");
+    } catch (error) {
+      return response.status(400).send('No fue posible eliminar, intente mas tarde');
+    }
+
+  }
+
 
 }

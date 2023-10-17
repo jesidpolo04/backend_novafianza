@@ -16,7 +16,7 @@ export default class ControladorCorreosOperaciones {
       return response.status(200).send(correos);
 
     } catch (error) {
-      return response.status(400).send('No fue posible realizar la consulta, intente mas tarde');
+      return response.status(400).send({mensaje:'No fue posible realizar la consulta, intente mas tarde'});
     }
   }
 
@@ -30,9 +30,9 @@ export default class ControladorCorreosOperaciones {
       correoBd.correo = correo
       correoBd.estado = estado;
       await correoBd.save()
-      return response.status(200).send("Correo actualizado correctamente");
+      return response.status(200).send({mensaje:"Correo actualizado correctamente"});
     } catch (error) {
-      return response.status(400).send('No fue posible actualizar, intente mas tarde');
+      return response.status(400).send({mensaje:'No fue posible actualizar, intente mas tarde'});
     }
 
   }
@@ -42,7 +42,7 @@ export default class ControladorCorreosOperaciones {
 
     const isCorreo = await TblCorreosOperaciones.query().where('coo_correo', correo).first()
     if (isCorreo) {
-      return response.status(400).send('El correo ya existe');
+      return response.status(400).send({mensaje:'El correo ya existe'});
     }
 
     try {
@@ -51,9 +51,9 @@ export default class ControladorCorreosOperaciones {
       correoBd.estado = estado
       await correoBd.save()
 
-      return response.status(200).send("Correo creado correctamente");
+      return response.status(200).send({mensaje:"Correo creado correctamente"});
     } catch (error) {      
-      return response.status(400).send('No fue posible crear el correo');
+      return response.status(400).send({mensaje:'No fue posible crear el correo'});
     }
 
   }
@@ -65,9 +65,9 @@ export default class ControladorCorreosOperaciones {
 
       const correoBd = await TblCorreosOperaciones.findOrFail(id)
       await correoBd.delete()
-      return response.status(200).send("Correo eliminado correctamente");
+      return response.status(200).send({mensaje:"Correo eliminado correctamente"});
     } catch (error) {
-      return response.status(400).send('No fue posible eliminar, intente mas tarde');
+      return response.status(400).send({mensaje:'No fue posible eliminar, intente mas tarde'});
     }
 
   }

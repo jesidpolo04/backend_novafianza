@@ -9,30 +9,50 @@ export default class ControladorCorreosOperaciones {
     this.service = new ServicioArchivo(new RepositorioArchivoDB())
   }
 
-  public async listar({ response }:HttpContextContract) {
+  public async listar({ response }: HttpContextContract) {
     try {
       const correos = TblCorreosOperaciones.all();
       return response.status(200).send(correos);
-      
+
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).send('No fue posible realizar la consulta, intente mas tarde');
     }
   }
 
-  public async actualizar({ params, request, response }:HttpContextContract) {
+  public async actualizar({ params, request, response }: HttpContextContract) {
     const { correo, estado = true } = request.all()
     const { id } = params
 
     try {
 
-      await TblCorreosOperaciones
-  .query()
-  .where('id', id)
-  .update({ 'coo_correo' : correo, 'coo_estado':estado});
-
+      const correoBd = await TblCorreosOperaciones.findOrFail(id)
+      correoBd.correo = correo
+      correoBd.estado = estado;
+      await correoBd.save()
       return response.status(200).send("Correo actualizado correctamente");
     } catch (error) {
-      return response.status(400).send(error);
+      return response.status(400).send('No fue posible actualizar, intente mas tarde');
+    }
+
+  }
+
+  public async crear({ request, response }: HttpContextContract) {
+    const { correo, estado = true } = request.all()
+
+    const isCorreo = await TblCorreosOperaciones.query().where('coo_correo', correo).first()
+    if (isCorreo) {
+      return response.status(400).send('El correo ya existe');
+    }
+
+    try {
+      const correoBd = new TblCorreosOperaciones()
+      correoBd.correo = correo
+      correoBd.estado = estado
+      await correoBd.save()
+
+      return response.status(200).send("Correo creado correctamente");
+    } catch (error) {      
+      return response.status(400).send('No fue posible crear el correo');
     }
 
   }

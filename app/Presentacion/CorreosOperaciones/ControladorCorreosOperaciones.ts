@@ -10,8 +10,9 @@ export default class ControladorCorreosOperaciones {
   }
 
   public async listar({ response }: HttpContextContract) {
+    
     try {
-      const correos = TblCorreosOperaciones.all();
+      const correos = await TblCorreosOperaciones.all();
       return response.status(200).send(correos);
 
     } catch (error) {

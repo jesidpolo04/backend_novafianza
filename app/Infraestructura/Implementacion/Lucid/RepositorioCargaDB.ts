@@ -463,16 +463,16 @@ export class RepositorioCargaDB implements RepositorioCarga {
       let mensaje = '';
       if (archivoLog === '') {
         console.log("No tiene archivo log");
-        asunto =(tipoDeProceso === 'WebApiReclamacionesFia') ? 'NOVAFIANZA S.A.S - Archivo en proceso de validación' : 'NOVAFIANZA S.A.S - Archivo sin novedades'
+        asunto =(tipoDeProceso === 'WebApiReclamacionesFia' && automatico) ? 'NOVAFIANZA S.A.S - Archivo Pendiente aprobación' : 'NOVAFIANZA S.A.S - Archivo sin novedades'
         
-        mensaje = (tipoDeProceso === 'WebApiReclamacionesFia') ? 'En proceso de validación' : 'Exitoso'
+        mensaje = (tipoDeProceso === 'WebApiReclamacionesFia' && automatico) ? 'Pendiente aprobación' : 'Exitoso'
 
         if (automatico) {
           this.enviarPdf(data, false, idCarga);
         }
         //Almacenar archivo localmente
         //await fichero.moveToDisk('./', { name: fichero.clientName });
-        const estadoCarga = (tipoDeProceso === 'WebApiReclamacionesFia') ? 5 : 2
+        const estadoCarga = (tipoDeProceso === 'WebApiReclamacionesFia' && automatico) ? 5 : 2
         this.actualizarEstadoCarga(idCarga, estadoCarga, undefined, undefined, codigoProcedimiento)
       }
 

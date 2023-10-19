@@ -41,9 +41,9 @@ export class RepositorioReportesSafix implements RepositorioReportes {
         const cuerpo = {
             pEntidad: filtrosSaldosCartera.empresa,
             pFechaInicioDesembolso: "",
-            pFechaFinalDesembolso: "",
-            pAnioColocacion: filtrosSaldosCartera.anioColocacion,
-            pMesColocacion: filtrosSaldosCartera.mesColocacion,
+            pFechaFinalDesembolso: filtrosSaldosCartera.fechaCierre,
+            pAnioColocacion: "",
+            pMesColocacion: "",
             pRangoMora: filtrosSaldosCartera.alturaDeMora ?? "",
             pTienda: filtrosSaldosCartera.departamento ?? "",
             pGenero: filtrosSaldosCartera.genero ?? ""

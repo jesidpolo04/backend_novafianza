@@ -33,23 +33,30 @@ export class SaldosCartera {
     }
 
     ordenarSaldosCarteraCosechas(): void {
-        this.saldosCarteraCosechas.sort( (a, b) =>{
+        this.saldosCarteraCosechas.sort((a, b) => {
             let periodoA = a.fechaColocacion;
             let periodoB = b.fechaColocacion;
-            if(!periodoA) return 1;
-            if(!periodoB) return -1;
-            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";  
+            if (!periodoA) return 1;
+            if (!periodoB) return -1;
+            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";
             let formatoB = periodoB.length > 5 ? "yyyyMM" : "yyyyM";
-            let fechaA = DateTime.fromFormat(periodoA, formatoA)  
+            let fechaA = DateTime.fromFormat(periodoA, formatoA)
             let fechaB = DateTime.fromFormat(periodoB, formatoB)
-            if(fechaA > fechaB){
+            if (fechaA > fechaB) {
                 return 1
-            }else if(fechaB > fechaA){
+            } else if (fechaB > fechaA) {
                 return -1
             }
-            else{
+            else {
                 return 0
             }
+        })
+        this.saldosCarteraCosechas.forEach(cosecha => {
+            cosecha.mesesMaduracion.sort((a, b) => {
+                const numeroA = parseInt(a.mes.replace("MES_", ""));
+                const numeroB = parseInt(b.mes.replace("MES_", ""));
+                return numeroA - numeroB;
+            })
         })
     }
 
@@ -74,21 +81,21 @@ export class SaldosCartera {
     }
 
     ordenarEvolucionSaldosCartera(): void {
-        this.evolucionSaldosCartera.sort( (a, b) => {
+        this.evolucionSaldosCartera.sort((a, b) => {
             let periodoA = a.periodo;
             let periodoB = b.periodo;
-            if(!periodoA) return 1;
-            if(!periodoB) return -1;
-            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";  
+            if (!periodoA) return 1;
+            if (!periodoB) return -1;
+            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";
             let formatoB = periodoB.length > 5 ? "yyyyMM" : "yyyyM";
-            let fechaA = DateTime.fromFormat(periodoA, formatoA)  
+            let fechaA = DateTime.fromFormat(periodoA, formatoA)
             let fechaB = DateTime.fromFormat(periodoB, formatoB)
-            if(fechaA > fechaB){
+            if (fechaA > fechaB) {
                 return 1
-            }else if(fechaB > fechaA){
+            } else if (fechaB > fechaA) {
                 return -1
             }
-            else{
+            else {
                 return 0
             }
         })
@@ -103,19 +110,19 @@ export class SaldosCartera {
     }
 
     ordernarFlowRates(): void {
-        this.flowRate.sort( (a, b) =>{
+        this.flowRate.sort((a, b) => {
             let periodoA = a.rango_0_30[0].periodo;
             let periodoB = b.rango_0_30[0].periodo;
-            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";  
+            let formatoA = periodoA.length > 5 ? "yyyyMM" : "yyyyM";
             let formatoB = periodoB.length > 5 ? "yyyyMM" : "yyyyM";
-            let fechaA = DateTime.fromFormat(periodoA, formatoA)  
+            let fechaA = DateTime.fromFormat(periodoA, formatoA)
             let fechaB = DateTime.fromFormat(periodoB, formatoB)
-            if(fechaA > fechaB){
+            if (fechaA > fechaB) {
                 return 1
-            }else if(fechaB > fechaA){
+            } else if (fechaB > fechaA) {
                 return -1
             }
-            else{
+            else {
                 return 0
             }
         })

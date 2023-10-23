@@ -18,19 +18,29 @@ export class MapeadorSaldosCarteraSafix{
         })
 
         saldosCarteraSafix.SaldosCarteraCosechas.forEach( scs => {
-            saldosCartera.saldosCarteraCosechas.push(new Reclamacion({
-                fechaColocacion: scs.FechaColocacion,
-                mesesMaduracion: scs.MesesMaduracion.map(mesMaduracionSafix => {
-                    return new MesMaduracion({
-                        mes: mesMaduracionSafix.Mes,
-                        valor: mesMaduracionSafix.Valor
+            const indiceCosechaExistente = saldosCartera.saldosCarteraCosechas.findIndex( cosecha => cosecha.fechaColocacion === scs.FechaColocacion)
+            if(indiceCosechaExistente >= 0){
+                if(scs.MesesMaduracion.length > 0){
+                    saldosCartera.saldosCarteraCosechas[indiceCosechaExistente].mesesMaduracion.push({
+                        mes: scs.MesesMaduracion[0].Mes,
+                        valor: scs.MesesMaduracion[0].Valor
                     })
-                }),
-                numCreditos: scs.NumCreditos,
-                plazo: scs.Plazo,
-                ticket: scs.Ticket,
-                vlrColocacion: scs.VlrColocacion 
-            }))
+                }
+            }else{
+                saldosCartera.saldosCarteraCosechas.push(new Reclamacion({
+                    fechaColocacion: scs.FechaColocacion,
+                    mesesMaduracion: scs.MesesMaduracion.map(mesMaduracionSafix => {
+                        return new MesMaduracion({
+                            mes: mesMaduracionSafix.Mes,
+                            valor: mesMaduracionSafix.Valor
+                        })
+                    }),
+                    numCreditos: scs.NumCreditos,
+                    plazo: scs.Plazo,
+                    ticket: scs.Ticket,
+                    vlrColocacion: scs.VlrColocacion 
+                }))
+            }
         })
         saldosCartera.ordenarSaldosCarteraCosechas()
 
@@ -196,7 +206,6 @@ export class MapeadorSaldosCarteraSafix{
                 vlrSaldoMoraMas120: coberturaSafix.VlrSaldoMoraMas120
             }))
         })
-        console.log('coberturas disponibles', saldosCarteraSafix.CoberturasDisponibles)
         saldosCarteraSafix.CoberturasDisponibles.forEach(coberturaDisponibleSafix =>{
             saldosCartera.coberturasDisponibles.push(new CoberturaDisponible({
                 indicador: coberturaDisponibleSafix.Indicador,

@@ -120,31 +120,84 @@ export default class ControladorCarga {
         mensaje: `Codigo de estado incorrecto (1 : Aprobado, 0 : Rechazado)`
       })
     }
-    const cargado = await TblCargaDatos.query().where({'car_codigo_procedimiento': CodigoProcedimiento, 'car_estado_proceso_id':5}).first();
+    const cargados = await TblCargaDatos.query().preload('archivo').where({'car_codigo_procedimiento': CodigoProcedimiento, 'car_estado_proceso_id':5});
    
-    if (!cargado) {
+    if (Object.keys(cargados).length === 0) {
       return response.status(400).send({
-        mensaje: `No existe un registro con este codigo`
-      })
+        mensaje: `No existen registros con este codigo sin validar`
+      })  
     }
+
+    //let archivosSubidos = new Array();
+    let ultimoRadicado;
+    let ultimaFecha
+   /*  cargados.forEach(cargado => {
+      archivosSubidos = `${cargado.archivo.nombre}, ${archivosSubidos} `
+    });
+     */
+    const archivosSubidos =  new Array();
+const nombresUnicos = new Set(); // Utilizar un Set para almacenar nombres únicos
+
+for (let i = 0; i < cargados.length; i++) {
+  const nombreArchivo = cargados[i].archivo.nombre;
+
+  if (!nombresUnicos.has(nombreArchivo)) {
+    archivosSubidos.push(nombreArchivo);
+    nombresUnicos.add(nombreArchivo); // Agregar el nombre al conjunto de nombres únicos
+
+  }
+  if (i === cargados.length - 1) {
+    ultimaFecha = cargados[i].createdAt;
+    ultimoRadicado = cargados[i].id;
+  }
+}
+
+    let asunto = '';
+    let resultado = '';
+    let estadoProceso;
+    let descripcionProceso;
+    if (Estado == 1) {
+      estadoProceso = 2
+      descripcionProceso = Descripcion
+      asunto = 'NOVAFIANZA S.A.S - Archivo abrobado QA'
+      resultado = 'Archivo aprobado';
+    }
+    if (Estado == 0) {
+      estadoProceso = 6
+      descripcionProceso = Descripcion
+      asunto = 'NOVAFIANZA S.A.S - Archivo rechazado QA'
+      resultado = 'Archivo rechazado';
+    }
+
+
+    await TblCargaDatos.query()
+    .where({'car_codigo_procedimiento': CodigoProcedimiento, 'car_estado_proceso_id': 5})
+    .update({
+      'car_estado_proceso_id': estadoProceso,
+      'car_descripcion_procedimiento': descripcionProceso
+    });
+  
+
+ /*   
+
     let asunto = '';
     let resultado = '';
     if (Estado == 1) {
       cargado.estadoProceso = 2
       cargado.descripcionProcedimeinto = Descripcion
-      asunto = 'NOVAFIANZA S.A.S - Archivo abrobado'
+      asunto = 'NOVAFIANZA S.A.S - Archivo abrobado QA'
       resultado = 'Archivo aprobado';
     }
     if (Estado == 0) {
       cargado.estadoProceso = 6
       cargado.descripcionProcedimeinto = Descripcion
-      asunto = 'NOVAFIANZA S.A.S - Archivo rechazado'
+      asunto = 'NOVAFIANZA S.A.S - Archivo rechazado QA'
       resultado = 'Archivo rechazado';
     }
     cargado.save();
-
-    const usuario = await TblUsuariosEmpresas.findBy('use_usuario', cargado.usuario);
-    const fecha = cargado.fechaInicial
+ */
+    const usuario = await TblUsuariosEmpresas.findBy('use_usuario', cargados[0].usuario);
+    const fecha = ultimaFecha
     const fechaCargue = `${fecha.year}-${fecha.month}-${fecha.day} ${fecha.hour}:${fecha.minute}:${fecha.second}`
     //Enviar correo
     const administradores = await TblUsuariosEmpresas.query().where({ 'use_empresa_id': usuario?.idEmpresa, 'use_rol_id': '003', 'use_estado': true })
@@ -175,10 +228,10 @@ export default class ControladorCarga {
       fechaCargue,
       titulo: 'datos',
       nombre: usuario?.nombre!,
-      nombreArchivo: cargado.nombre,
-      numeroRadicado: cargado.id,
+      nombreArchivo: archivosSubidos.toString(),
+      numeroRadicado: ultimoRadicado,
       resultado,
-      tipoArchivo: '',
+      tipoArchivo: archivosSubidos.toString(),
       url: `${Env.get('DOMINIO')}/Front-novafianza/dist/admin`
     }));
 

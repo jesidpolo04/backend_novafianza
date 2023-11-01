@@ -98,7 +98,8 @@ export class ServicioArchivoEmpresa{
       archivoEmpresa = ArchivoEmpresa.crear(idEmpresa, idArchivo, false)
       archivoEmpresa = await this.repositorio.guardarArchivoEmpresa(archivoEmpresa)
     }
-    archivoEmpresa.manual = `${Env.get('HOSTING')}${Env.get('ENDPOINT_FICHEROS')}${RUTAS_ARCHIVOS.MANUALES}/${archivoEmpresa.id}.${manual.extension}`
+  //  archivoEmpresa.manual = `${Env.get('HOSTING')}${Env.get('ENDPOINT_FICHEROS')}${RUTAS_ARCHIVOS.MANUALES}/${archivoEmpresa.id}.${manual.extension}`
+  archivoEmpresa.manual = `${archivoEmpresa.id}.${manual.extension}`
     this.repositorioFicheros.guardarFichero(manual, RUTAS_ARCHIVOS.MANUALES, `${archivoEmpresa.id}`, manual.extension)
     await this.repositorio.actualizarArchivoEmpresa(archivoEmpresa.id, archivoEmpresa)
   }

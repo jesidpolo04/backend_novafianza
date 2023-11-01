@@ -58,8 +58,8 @@ export default class TblArchivosEmpresas extends BaseModel {
   }
 
   @hasMany(() => TblArchivos, {
-    localKey: 'id',
-    foreignKey: 'idArchivo',
+    localKey: 'idArchivo',
+    foreignKey: 'id',
   })
   public archivo: HasMany<typeof TblArchivos>
 

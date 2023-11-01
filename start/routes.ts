@@ -39,7 +39,7 @@ Route.get('/excel', async ({request, response}: HttpContextContract) => {
   } 
   const repositorioFichero = new RepositorioFicheroLocal()
   await repositorioFichero.guardarFichero(fichero, RUTAS_ARCHIVOS.REPORTES_FICHEROS, 'reporte', 'xlsx')
-  const ruta = `${process.cwd()}${Env.get('RUTA_FICHEROS')}${RUTAS_ARCHIVOS.REPORTES_FICHEROS}/reporte.xlsx`
+  const ruta = `${Env.get('RUTA_FICHEROS')}${RUTAS_ARCHIVOS.REPORTES_FICHEROS}/reporte.xlsx`
   response.attachment(ruta)
 })
 

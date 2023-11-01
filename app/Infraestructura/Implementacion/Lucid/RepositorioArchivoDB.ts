@@ -68,7 +68,6 @@ export class RepositorioArchivoDB implements RepositorioArchivo {
     
     
     archivosEmpresaDb.map(archivo =>{
-       console.log(archivo.ArchivosEmpresa);
       archivos.push({
         "id": archivo.id ,
             "nombre": archivo.nombre ,

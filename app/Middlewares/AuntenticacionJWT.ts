@@ -8,7 +8,25 @@ export default class AutenticacionJWT {
     if(!cabeceraAutenticacion){
       throw new JwtInvalidoException('Falta el token de autenticación')
     }
-    ServicioAutenticacionJWT.verificarToken(cabeceraAutenticacion)
+
+    
+    const verificador = await ServicioAutenticacionJWT.verificarToken(cabeceraAutenticacion)
+    if (verificador) {
+      
+      const jwt = cabeceraAutenticacion.split(' ')[1]
+          const payload = await ServicioAutenticacionJWT.obtenerPayload(jwt)
+          if(!payload.idRol || payload.idRol === '006'){
+          return  contexto.response.status(400).send({
+              mensaje: `No autorizado`,
+              estado: 400,
+              origen: '',
+              token_valido: true,
+              token_expirado: false
+          })
+          }
+      
+}
+
     await next()
   }
 }

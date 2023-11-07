@@ -34,7 +34,6 @@ export default class TblArchivos extends BaseModel {
     this.nombre = archivo.nombre
     this.tipo = archivo.tipo
     this.prefijo = archivo.prefijo
-    this.prefijoArchivo = archivo.prefijoArchivo
     this.prefijoParametrizacion = archivo.prefijoParametrizacion
     this.estado = archivo.estado
     this.formatoId = archivo.formatoId
@@ -45,7 +44,6 @@ export default class TblArchivos extends BaseModel {
     this.nombre = archivo.nombre
     this.tipo = archivo.tipo
     this.prefijo = archivo.prefijo
-    this.prefijoArchivo = archivo.prefijoArchivo
     this.prefijoParametrizacion = archivo.prefijoParametrizacion
     this.estado = archivo.estado
     this.formatoId = archivo.formatoId
@@ -84,6 +82,7 @@ export default class TblArchivos extends BaseModel {
     pivotForeignKey: 'are_archivo_id',
     relatedKey: 'id',
     pivotRelatedForeignKey:  'are_empresa_id',
+    pivotColumns:['are_manual'],
     pivotTable: 'tbl_archivos_empresas'
 
   })

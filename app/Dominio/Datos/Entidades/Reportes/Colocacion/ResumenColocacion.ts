@@ -2,6 +2,7 @@ export class ResumenColocacion {
     numeroCreditos: number;
     numeroClientes: number;
     ticketPromedio: number;
+    valorColocacion: number;
     plazoPromedioPonderado: number;
     creditosPorCliente: number;
     coberturaSobreColocacion: number;
@@ -14,6 +15,7 @@ export class ResumenColocacion {
         numeroCreditos ,
         numeroClientes ,
         ticketPromedio ,
+        valorColocacion,
         plazoPromedioPonderado ,
         creditosPorCliente ,
         coberturaSobreColocacion ,
@@ -25,6 +27,7 @@ export class ResumenColocacion {
         numeroCreditos: number,
         numeroClientes: number,
         ticketPromedio: number,
+        valorColocacion: number,
         plazoPromedioPonderado: number,
         creditosPorCliente: number,
         coberturaSobreColocacion: number,
@@ -36,6 +39,7 @@ export class ResumenColocacion {
         this.numeroCreditos = numeroCreditos
         this.numeroClientes = numeroClientes
         this.ticketPromedio = ticketPromedio
+        this.valorColocacion = valorColocacion
         this.plazoPromedioPonderado = plazoPromedioPonderado
         this.creditosPorCliente = creditosPorCliente
         this.coberturaSobreColocacion = coberturaSobreColocacion

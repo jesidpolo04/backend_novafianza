@@ -6,6 +6,7 @@ const accion_path = '../../../app/Presentacion/Maestra/ControladorMaestra'
 Route.group(() => {
   Route.post('/registro', accion_path + '.guardarMaestra')
   Route.get('/listar/:pagina?/:limite?', accion_path + '.listar')
+  Route.get('/tipo-servicio', accion_path + '.tipoArchivo')
   Route.get('/:id', accion_path + '.obtenerMaestraPorId')
   Route.patch('/:id', accion_path + '.actualizarMaestra')
   Route.put('/estado/:id', accion_path + '.cambiarEstado')

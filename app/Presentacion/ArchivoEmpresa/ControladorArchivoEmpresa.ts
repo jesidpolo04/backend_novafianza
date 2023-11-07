@@ -8,6 +8,8 @@ import Drive from '@ioc:Adonis/Core/Drive';
 import { validadorVincularManual } from './Validadores/ValidadorVincularManual';
 import { MapeadorFicheroAdonis } from '../Mapeadores/MapeadorFicheroAdonis';
 import { RepositorioFicheroLocal } from 'App/Infraestructura/Ficheros/RepositorioFicheroLocal';
+import fs from 'fs';
+const path = require('path');
 
 export default class ControladorArchivoEmpresa {
   private service: ServicioArchivoEmpresa
@@ -109,4 +111,30 @@ export default class ControladorArchivoEmpresa {
     }
 
   }
+
+  async obtener({ params, response }: HttpContextContract){    
+    const {archivo} = params
+    
+    const relativePath = '../../archivos/manuales/'; 
+
+    if(archivo){
+      try {
+          const absolutePath = path.resolve(`${relativePath}${archivo}`);
+          console.log(absolutePath);
+          
+  
+          let archivoDescargar = fs.readFileSync(`${absolutePath}`, 'base64');          
+          return { archivoDescargar }
+      } catch (error) {
+          return {
+              mensaje: `No se encontro el archivo solicitado`,
+              error
+          }
+  
+      }
+
+    }
+
+
+}
 }

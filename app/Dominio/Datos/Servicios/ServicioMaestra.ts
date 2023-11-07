@@ -5,6 +5,7 @@ import { Maestra } from "../Entidades/Maestra";
 import { Paginador } from "App/Dominio/Paginador";
 import { RepositorioMaestra } from "App/Dominio/Repositorios/RepositorioMaestra";
 import { v4 as uuidv4 } from 'uuid'
+import { TipoArchivo } from "../Entidades/TipoArchivo";
 
 export class ServicioMaestra{
   constructor (private repositorio: RepositorioMaestra) { }
@@ -31,4 +32,9 @@ export class ServicioMaestra{
     maestra.estado = !maestra.estado
     return await this.repositorio.actualizarMaestra(id, maestra);
   }
+
+  async tiposArchivo (): Promise<TipoArchivo[]>{
+    return this.repositorio.tiposArchivo();
+  }
+
 }

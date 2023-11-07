@@ -22,7 +22,6 @@ export class RepositorioArchivoDB implements RepositorioArchivo {
   }
 
   async guardarArchivo (archivo: Archivo): Promise<Archivo> {
-    console.log(archivo);
     
     let archivoDb = new Tblarchivos()
     archivoDb.establecerArchivoDb(archivo)
@@ -59,12 +58,16 @@ export class RepositorioArchivoDB implements RepositorioArchivo {
     return archivosEmpresaDb.map(archivoEmpresaDb => {
       return archivoEmpresaDb.obtenerArchivoEmpresa()
     }) */
-    const archivos: Archivo[] = [];
-    const archivosEmpresaDb = await Tblarchivos.query().preload('ArchivosEmpresa').whereHas('ArchivosEmpresa', sql =>{
+    const archivos: any[] = [];
+    const archivosEmpresaDb = await Tblarchivos.query().preload('ArchivosEmpresa', sql =>{
+      sql.where('emp_id', idEmpresa)
+    }).whereHas('ArchivosEmpresa', sql =>{
       sql.where('emp_id', idEmpresa)
     }).orderBy('id', 'desc').paginate(1, 100)
 
-     archivosEmpresaDb.map(archivo =>{
+    
+    
+    archivosEmpresaDb.map(archivo =>{
       archivos.push({
         "id": archivo.id ,
             "nombre": archivo.nombre ,
@@ -74,6 +77,7 @@ export class RepositorioArchivoDB implements RepositorioArchivo {
             "estado": archivo.estado ,
             "formatoId": archivo.formatoId ,
             "descripcion": archivo.descripcion ,
+            "manual": archivo.ArchivosEmpresa[0]?.$extras?.pivot_are_manual,
             "createdAt": archivo.createdAt ,
             "updatedAt": archivo.updatedAt 
       })

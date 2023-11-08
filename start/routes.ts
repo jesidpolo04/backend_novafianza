@@ -46,13 +46,11 @@ Route.get('/excel', async ({request, response}: HttpContextContract) => {
 Route.get('/recursos/*', async ({request, response}:HttpContextContract) => {
   const ruta = request.param('*').join('/')
   const path = `${ruta}`
-  console.log(path)
   try {
       const { size } = await Drive.getStats(path)
       response.type(extname(path))
       response.header('content-length', size)
       response.stream(await Drive.getStream(path))
-      console.log(await Drive.getStream(path))
   } catch(e){
       console.log(e)
       response.status(404).send(undefined)

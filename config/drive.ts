@@ -78,7 +78,7 @@ export default driveConfig({
       | you are not registering routes with this prefix.
       |
       */
-      basePath: '/',
+      basePath: Env.get("RUTA_FICHEROS"),
     },
 
     /*

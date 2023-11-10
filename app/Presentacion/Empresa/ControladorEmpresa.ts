@@ -9,29 +9,35 @@ import { MapeadorFicheroAdonis } from '../Mapeadores/MapeadorFicheroAdonis'
 import { esquemaActualizarEmpresa } from './Validadores/ValidadorActualizarEmpresa'
 export default class ControladorEmpresa {
 
-  static get inject(){
+  static get inject() {
     return ['App/Dominio/Ficheros/RepositorioFichero']
   }
 
   private service: ServicioEmpresa
-  constructor () {
+  constructor() {
     this.service = new ServicioEmpresa(new RepositorioEmpresaDB(), new RepositorioFicheroLocal())
   }
 
-  public async listar ({ params }) {
+  public async listar({ params }) {
     const empresa = await this.service.obtenerEmpresas(params)
     return empresa
   }
 
-  public async obtenerEmpresaPorId ({ params }) {
+  public async obtenerEmpresaPorId({ params }) {
     const empresa = await this.service.obtenerEmpresaPorId(params.id)
     return empresa
   }
 
-  public async actualizarEmpresa ({ params, request }:HttpContextContract) {
+  public async actualizarEmpresa({ params, request }: HttpContextContract) {
+    const logoFile = request.file('logo');
+    if (logoFile) {
+      logoFile.extname = logoFile.extname!.toLowerCase();
+    }
+
     const peticion = await request.validate({
       schema: esquemaActualizarEmpresa
     })
+
     const logo = peticion.logo ? await MapeadorFicheroAdonis.obtenerFichero(peticion.logo) : undefined
     const empresa = await this.service.actualizarEmpresa(params.id, {
       convenio: peticion.convenio,
@@ -42,7 +48,12 @@ export default class ControladorEmpresa {
     return empresa
   }
 
-  public async guardarEmpresa ({ request }:HttpContextContract) {
+  public async guardarEmpresa({ request }: HttpContextContract) {
+    const logoFile = request.file('logo');
+    if (logoFile) {
+      logoFile.extname = logoFile.extname!.toLowerCase();
+    }
+
     const peticion = await request.validate({
       schema: esquemaEmpresa
     })
@@ -56,8 +67,8 @@ export default class ControladorEmpresa {
     return empresa
   }
 
-  public async cambiarEstado ({request, response}:HttpContextContract){
-    try{
+  public async cambiarEstado({ request, response }: HttpContextContract) {
+    try {
       let id = request.param('id')
       await this.service.cambiarEstado(id)
       response.status(200).send('Cambio realizado correctamente')

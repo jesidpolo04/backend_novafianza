@@ -44,7 +44,7 @@ const corsConfig: CorsConfig = {
   |                     one of the above values.
   |
   */
-  origin: '*',
+  origin: 'https://novafianza.com, https://novafianza.com/administrador',
 
   /*
   |--------------------------------------------------------------------------
